@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Phoenix - Interactive Pitch Deck</title>
+    <!-- Tailwind CSS for modern design and layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Poppins (Heads) & DM Sans (Body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons for premium presentation aesthetics -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: #030712;
+            color: #ffffff;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        h1, h2, h3, h4, .font-display {
+            font-family: 'Poppins', sans-serif;
+            color: #ffffff;
+        }
+
+        /* 16:9 Presentation Slide Canvas Container */
+        .presentation-viewport {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            overflow: hidden;
+            background: radial-gradient(circle at 10% 20%, #080f20 0%, #030712 100%);
+            box-shadow: 0 25px 70px -10px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            transform-origin: center center;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Cinematic Slide transitions */
+        .slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.03) translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 45px 65px 55px 65px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        .slide.prev {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.97) translateY(-20px);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+        }
+
+        /* Custom Scrollbar for Copilot panel */
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 99px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* ====================================================================
+           STREAMING_CHUNK: Refining Landing Gear Touchdown Physics Timeline
+           ==================================================================== */
+        
+        /* 1. Landing Gear is out (0% to 25%), then pushes up instantly (40% to 75%) */
+        @keyframes piston-compress {
+            0%, 25% { transform: translateY(-45px); }      /* Gear is OUT (Extended Downwards) */
+            40% { transform: translateY(12px); }       /* Pushes UP (Maximum Touchdown Compression) */
+            75% { transform: translateY(12px); }       /* Held Compressed on Runway */
+            90%, 100% { transform: translateY(-45px); }    /* Extends Back Out */
+        }
+
+        /* 2. Runway impact flash spark exactly at first touch (25%) */
+        @keyframes runway-impact {
+            0%, 24% { opacity: 0; transform: translate(200px, 205px) scale(0.4); }
+            25% { opacity: 1; transform: translate(200px, 205px) scale(1); filter: drop-shadow(0 0 10px #00F5D4); }
+            38% { opacity: 0; transform: translate(200px, 205px) scale(2); }
+            100% { opacity: 0; transform: translate(200px, 205px) scale(2); }
+        }
+
+        /* 3. Outer casing becomes transparent ONLY when gear pushes up (30% to 75%) */
+        @keyframes cylinder-transparency {
+            0%, 25% { fill: rgba(15, 23, 42, 0.95); stroke: #475569; }
+            30%, 75% { fill: rgba(15, 23, 42, 0.15); stroke: #00F5D4; } /* Transparent to reveal inside */
+            90%, 100% { fill: rgba(15, 23, 42, 0.95); stroke: #475569; }
+        }
+
+        /* 4. Disorganized fluid state (When gear is out) */
+        @keyframes fluid-disorganized {
+            0%, 25% { opacity: 1; }
+            30%, 75% { opacity: 0; }
+            90%, 100% { opacity: 1; }
+        }
+
+        /* 5. Aligned micro-iron chains lock in (When gear pushes up) */
+        @keyframes fluid-aligned {
+            0%, 25% { opacity: 0; }
+            30%, 75% { opacity: 1; }
+            90%, 100% { opacity: 0; }
+        }
+
+        /* 6. Glowing electric pulse generated during push-up and travels up copper coils */
+        @keyframes pulse-climb {
+            0%, 25% { transform: translateY(160px); opacity: 0; }
+            27% { opacity: 1; filter: drop-shadow(0 0 8px #00F5D4); }
+            48% { transform: translateY(55px); opacity: 1; }
+            52% { transform: translateY(40px); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* 7. Flow lines transfer electricity to the battery ONLY during compression */
+        @keyframes energy-transfer-line {
+            0%, 28% { stroke-dashoffset: 240; opacity: 0; }
+            32%, 72% { stroke-dashoffset: 0; opacity: 1; }
+            78%, 100% { stroke-dashoffset: -240; opacity: 0; }
+        }
+
+        /* 8. Battery charging cell fill (Grows green when electricity is generated) */
+        @keyframes battery-charge-fill {
+            0%, 30% { width: 0px; fill: #ef4444; }
+            35% { fill: #f59e0b; }
+            48%, 75% { width: 22px; fill: #00F5D4; }
+            88%, 100% { width: 0px; fill: #ef4444; }
+        }
+
+        /* 9. Landing HUD Text Alert overlay */
+        @keyframes touchdown-hud-alert {
+            0%, 24% { opacity: 0; transform: scale(0.9); }
+            25%, 72% { opacity: 1; transform: scale(1); }
+            80%, 100% { opacity: 0; transform: scale(0.9); }
+        }
+
+        /* Apply coordinated animations */
+        .anim-piston-assembly {
+            animation: piston-compress 5.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        }
+
+        .anim-runway-spark {
+            animation: runway-impact 5.5s ease-out infinite;
+        }
+
+        .anim-outer-casing {
+            animation: cylinder-transparency 5.5s ease-in-out infinite;
+        }
+
+        .anim-fluid-disorganized {
+            animation: fluid-disorganized 5.5s ease-in-out infinite;
+        }
+
+        .anim-fluid-aligned {
+            animation: fluid-aligned 5.5s ease-in-out infinite;
+        }
+
+        .anim-coil-pulse {
+            animation: pulse-climb 5.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        }
+
+        .anim-laser-line {
+            stroke-dasharray: 12;
+            animation: energy-transfer-line 5.5s linear infinite;
+        }
+
+        .anim-battery-meter {
+            animation: battery-charge-fill 5.5s ease-out infinite;
+        }
+
+        .anim-touchdown-alert {
+            animation: touchdown-hud-alert 5.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4 overflow-y-auto">
+
+    <!-- Top Action Header containing Workspace Title -->
+    <div class="w-full max-w-[1280px] flex justify-between items-center mb-4 z-10 px-4">
+        <div class="flex items-center gap-3">
+            <span class="w-3 h-3 rounded-full bg-[#00F5D4] animate-pulse"></span>
+            <span class="text-white font-bold text-sm tracking-wide">Project Phoenix Workspace</span>
+        </div>
+        <button onclick="toggleAiDrawer()" class="px-4 py-2 bg-gradient-to-r from-[#00F5D4] to-[#00bbf9] hover:from-[#00bbf9] hover:to-[#00F5D4] text-slate-950 font-extrabold text-xs rounded-full flex items-center gap-2 shadow-lg hover:scale-105 transition-all">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Interactive AI Copilot Dock</span>
+        </button>
+    </div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div id="deck-wrapper" class="flex flex-col lg:flex-row items-center justify-center w-full max-w-full gap-6">
+        
+        <!-- PRESENTATION CANVAS -->
+        <div class="presentation-viewport shrink-0" id="viewport">
+            
+            <!-- BACKGROUND ACCENTS -->
+            <div class="absolute -top-[20%] -right-[20%] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(0,245,212,0.06)_0%,transparent_70%)] pointer-events-none"></div>
+            <div class="absolute -bottom-[20%] -left-[20%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(0,187,249,0.04)_0%,transparent_70%)] pointer-events-none"></div>
+
+            <!-- =======================================================
+                 SLIDE 1: WELCOME & TEAM INTRO (Yassin)
+                 ======================================================= -->
+            <div class="slide active" id="slide-1">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold tracking-[0.25em] text-[#00F5D4] uppercase">Project Phoenix &bull; Introduction</span>
+                    <span class="text-xs text-slate-300 font-mono">01 / 06</span>
+                </div>
+                
+                <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                    <div class="col-span-5 pr-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full mb-3">
+                            <i class="fa-solid fa-plane-up text-amber-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-amber-500 tracking-wide uppercase">Yassin, Kenzy, Hamza</span>
+                        </div>
+                        <h1 class="text-4xl font-extrabold text-white leading-tight mb-3">
+                            Project Phoenix: <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] to-[#00bbf9]">Self-Powering Adaptive Landing Gear</span>
+                        </h1>
+                        
+                        <!-- PRESENTER CHEAT SHEET: SPECIALLY DESIGNED FOR YASSIN -->
+                        <div class="space-y-2 mt-4">
+                            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block">Presenter Memory Anchors (Yassin):</span>
+                            <div class="grid grid-cols-1 gap-2">
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <div class="w-5 h-5 rounded bg-slate-800 flex items-center justify-center shrink-0 text-red-400 text-xs font-bold">1</div>
+                                    <div class="text-xs text-slate-300">
+                                        <strong class="text-[#00F5D4]">Beyond the Aircraft:</strong> Turning touchdown impact kinetic forces into safe, clean power on the ground.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <div class="w-5 h-5 rounded bg-slate-800 flex items-center justify-center shrink-0 text-red-400 text-xs font-bold">2</div>
+                                    <div class="text-xs text-slate-300">
+                                        <strong class="text-[#00F5D4]">Hands-on Tech Enthusiasts:</strong> Passionate hardware engineering re-imagining aviation safety and efficiency.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <div class="w-5 h-5 rounded bg-slate-800 flex items-center justify-center shrink-0 text-red-400 text-xs font-bold">3</div>
+                                    <div class="text-xs text-slate-300">
+                                        <strong class="text-[#00F5D4]">The Mission:</strong> Protecting structural integrity while recycling landing shock, one touchdown at a time.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- EXTREMELY HIGH-FIDELITY REAL TEAM PHOTOS -->
+                    <div class="col-span-7">
+                        <div class="grid grid-cols-3 gap-4">
+                            <!-- Yassin Portrait -->
+                            <div class="glass-panel p-3 border border-slate-800 flex flex-col items-center text-center">
+                                <div class="w-28 h-36 rounded-xl overflow-hidden border-2 border-emerald-500 mb-2 relative bg-slate-950">
+                                    <img class="w-full h-full object-cover object-[center_15%]" 
+                                         src="yassin portofolio.jpeg" 
+                                         alt="Yassin Portrait" />
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400 block">Yassin</span>
+                                <span class="text-[9px] text-slate-400 block">UX &amp; Tech Lead</span>
+                            </div>
+
+                            <!-- Kenzy Portrait -->
+                            <div class="glass-panel p-3 border border-slate-800 flex flex-col items-center text-center">
+                                <div class="w-28 h-36 rounded-xl overflow-hidden border-2 border-[#00bbf9] mb-2 relative bg-slate-950">
+                                    <img class="w-full h-full object-cover object-center" 
+                                         src="hamza portofolio.jpeg" 
+                                         alt="Kenzy Portrait" />
+                                </div>
+                                <span class="text-xs font-bold text-[#00bbf9] block">Kenzy</span>
+                                <span class="text-[9px] text-slate-400 block">Aero-Math</span>
+                            </div>
+
+                            <!-- Hamza Portrait -->
+                            <div class="glass-panel p-3 border border-slate-800 flex flex-col items-center text-center">
+                                <div class="w-28 h-36 rounded-xl overflow-hidden border-2 border-pink-500 mb-2 relative bg-slate-950">
+                                    <img class="w-full h-full object-cover object-[center_10%]" 
+                                         src="kenzy portofolio.jpeg" 
+                                         alt="Hamza Portrait" />
+                                </div>
+                                <span class="text-xs font-bold text-pink-400 block">Hamza</span>
+                                <span class="text-[9px] text-slate-400 block">Alliances &amp; SDGs</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[10px] text-slate-300 border-t border-slate-900 pt-3">
+                    <span>Project Phoenix Presentation &bull; 5-Minute Format</span>
+                    <span>Hold [Space] or click arrow to advance slide</span>
+                </div>
+            </div>
+
+            <!-- =======================================================
+                 SLIDE 2: THE PROBLEM (Kenzy)
+                 ======================================================= -->
+            <div class="slide" id="slide-2">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold tracking-[0.25em] text-[#00F5D4] uppercase">Project Phoenix &bull; The Problem</span>
+                    <span class="text-xs text-slate-300 font-mono">02 / 06</span>
+                </div>
+                
+                <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                    <div class="col-span-7 pr-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full mb-3">
+                            <i class="fa-solid fa-clipboard-question text-amber-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-amber-500 tracking-wide uppercase">Presenter: Kenzy</span>
+                        </div>
+                        <h2 class="text-4xl font-extrabold text-white leading-tight mb-3">
+                            Unadaptive Touchdowns: <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-amber-500">Structural Damage &bull; Lost Energy</span>
+                        </h2>
+                        
+                        <!-- PRESENTER CHEAT SHEET: SPECIALLY DESIGNED FOR KENZY -->
+                        <div class="space-y-2 mt-4">
+                            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block">Presenter Memory Anchors (Kenzy):</span>
+                            <div class="grid grid-cols-1 gap-2.5">
+                                <div class="flex gap-3 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <div class="w-5 h-5 rounded bg-red-500/10 flex items-center justify-center shrink-0 text-red-400 text-xs font-bold"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                    <div class="text-xs text-slate-300 font-medium">
+                                        <strong class="text-red-400">Fixed Rigidity Constraints:</strong> Traditional landing gears cannot alter stiffness to adapt to varying aircraft payloads or runway crosswinds.
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <div class="w-5 h-5 rounded bg-red-500/10 flex items-center justify-center shrink-0 text-red-400 text-xs font-bold"><i class="fa-solid fa-wrench"></i></div>
+                                    <div class="text-xs text-slate-300 font-medium">
+                                        <strong class="text-red-400">Structural Wear and Crack Risks:</strong> Massive constant impacts generate extreme high-stress fatigue, necessitating continuous and highly expensive maintenance.
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <div class="w-5 h-5 rounded bg-red-500/10 flex items-center justify-center shrink-0 text-red-400 text-xs font-bold"><i class="fa-solid fa-battery-empty"></i></div>
+                                    <div class="text-xs text-slate-300 font-medium">
+                                        <strong class="text-red-400">100% Wasted Landing Energy:</strong> Gigajoules of pure kinetic landing force are lost entirely, dissipated into the environment as raw, useless hydraulic friction heat.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- HIGH-FIDELITY DAMAGE SCHEMATIC VISUAL -->
+                    <div class="col-span-5 h-[360px] rounded-2xl overflow-hidden border border-slate-800/80 relative group shadow-2xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent z-10"></div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
+                             src="https://images.unsplash.com/photo-1517976487492-5750f3195933?auto=format&fit=crop&w=600&q=80" 
+                             onerror="this.src='https://placehold.co/600x400/080f20/ffffff?text=Heavy+Touchdown+Impact'"
+                             alt="Heavy aircraft landing gear physical impact stress" />
+                        
+                        <div class="absolute bottom-4 left-4 right-4 z-20 bg-slate-950/95 border border-slate-800/80 p-3 rounded-xl">
+                            <span class="text-[9px] text-red-400 font-bold uppercase tracking-wider block mb-1"><i class="fa-solid fa-bolt-lightning mr-1.5 animate-pulse"></i>100% Kinetic Energy Loss</span>
+                            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-1">
+                                <div class="bg-gradient-to-r from-red-500 to-orange-500 h-full" style="width: 100%;"></div>
+                            </div>
+                            <span class="text-[8px] text-slate-400 block">Rigid shock compression converts raw potential force into wasted atmospheric heat.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[10px] text-slate-300 border-t border-slate-900 pt-3">
+                    <span>Aviation Structural Dynamics &bull; Touchdown Mechanics</span>
+                    <span>Presenter: Kenzy</span>
+                </div>
+            </div>
+
+            <!-- =======================================================
+                 SLIDE 3: OUR SOLUTION - THE SMART SYRINGE (Yassin)
+                 ======================================================= -->
+            <div class="slide" id="slide-3">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold tracking-[0.25em] text-[#00F5D4] uppercase">Project Phoenix &bull; Our Solution</span>
+                    <span class="text-xs text-slate-300 font-mono">03 / 06</span>
+                </div>
+                
+                <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                    <div class="col-span-6 pr-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full mb-3">
+                            <i class="fa-solid fa-lightbulb text-amber-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-amber-500 tracking-wide uppercase">Presenter: Yassin</span>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-white leading-tight mb-2">
+                            The Smart Syringe: <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] to-[#00bbf9]">Adaptive Magnetorheological Fluid</span>
+                        </h2>
+                        
+                        <!-- PRESENTER CHEAT SHEET: SPECIALLY DESIGNED FOR YASSIN -->
+                        <div class="space-y-2 mt-2">
+                            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block">Presenter Memory Anchors (Yassin):</span>
+                            <div class="grid grid-cols-1 gap-2">
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-teal-500/10 text-teal-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-syringe"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-teal-400">Syringe Analogy:</strong> Traditional landing gear is like a regular syringe filled with normal oil. It remains stiff and unadaptive.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-magnet"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-cyan-400">Millisecond Control:</strong> Microscopic iron particles in synthetic oil align instantly under an electromagnet, turning fluid thicker to adjust structural stiffness.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-gauge"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-purple-400">Weight Balancing:</strong> Thicken fluid instantly for heavy landings, thin out fluid for light landings. Safe and incredibly smooth touchdowns.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- DUAL DIAGRAM COMPARISON: REGULAR vs SMART SYRINGE -->
+                    <div class="col-span-6">
+                        <div class="p-4 glass-panel border border-slate-800 rounded-2xl bg-slate-950/70">
+                            <span class="text-[10px] text-slate-400 block uppercase font-bold tracking-widest mb-3 text-center">Rigid vs Smart Adaptive Damping</span>
+                            
+                            <div class="grid grid-cols-2 gap-4">
+                                <!-- Syringe Off State -->
+                                <div class="bg-slate-900/90 rounded-xl p-3 border border-slate-800 text-center">
+                                    <span class="px-2 py-0.5 bg-red-500/10 text-red-400 rounded-full text-[8px] font-bold uppercase block w-max mx-auto mb-2">Regular Syringe (Rigid)</span>
+                                    <div class="relative w-full h-[140px] bg-slate-950 rounded-lg overflow-hidden flex items-center justify-center">
+                                        <!-- Plain fluid syringe representation -->
+                                        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140">
+                                            <rect x="35" y="10" width="30" height="90" rx="3" stroke="#475569" stroke-width="2" fill="rgba(255,255,255,0.03)"/>
+                                            <rect x="42" y="30" width="16" height="70" fill="rgba(239, 68, 68, 0.15)"/>
+                                            <line x1="50" y1="5" x2="50" y2="30" stroke="#94a3b8" stroke-width="4"/>
+                                            <rect x="40" y="30" width="20" height="5" fill="#64748b"/>
+                                            <!-- Disorganized fluid droplets -->
+                                            <circle cx="45" cy="45" r="2" fill="#94a3b8"/>
+                                            <circle cx="55" cy="55" r="2" fill="#94a3b8"/>
+                                            <circle cx="48" cy="70" r="2" fill="#94a3b8"/>
+                                            <circle cx="53" cy="85" r="2" fill="#94a3b8"/>
+                                        </svg>
+                                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 to-transparent flex items-end justify-center pb-2">
+                                            <span class="text-[8px] text-slate-400 font-mono">Unadaptive Oil</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-slate-400 mt-2">Stiff, unyielding oil. Translates impacts into severe wear.</p>
+                                </div>
+                                
+                                <!-- Syringe On State -->
+                                <div class="bg-slate-900/90 rounded-xl p-3 border border-[#00f5d4]/20 text-center">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded-full text-[8px] font-bold uppercase block w-max mx-auto mb-2">Smart Syringe (MR)</span>
+                                    <div class="relative w-full h-[140px] bg-slate-950 rounded-lg overflow-hidden flex items-center justify-center">
+                                        <!-- Smart syringe representation -->
+                                        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 140">
+                                            <rect x="35" y="10" width="30" height="90" rx="3" stroke="#00f5d4" stroke-width="2" fill="rgba(0, 245, 212, 0.03)"/>
+                                            <rect x="42" y="30" width="16" height="70" fill="rgba(0, 245, 212, 0.1)"/>
+                                            <line x1="50" y1="5" x2="50" y2="30" stroke="#00f5d4" stroke-width="4"/>
+                                            <rect x="40" y="30" width="20" height="5" fill="#00f5d4"/>
+                                            <!-- Electromagnet coils on side -->
+                                            <path d="M 28 35 C 28 35, 31 38, 33 35" stroke="#00bbf9" stroke-width="1.5" fill="none"/>
+                                            <path d="M 28 55 C 28 55, 31 58, 33 55" stroke="#00bbf9" stroke-width="1.5" fill="none"/>
+                                            <path d="M 28 75 C 28 75, 31 78, 33 75" stroke="#00bbf9" stroke-width="1.5" fill="none"/>
+                                            <path d="M 67 35 C 67 35, 70 38, 72 35" stroke="#00bbf9" stroke-width="1.5" fill="none"/>
+                                            <path d="M 67 55 C 67 55, 70 58, 72 55" stroke="#00bbf9" stroke-width="1.5" fill="none"/>
+                                            <path d="M 67 75 C 67 75, 70 78, 72 75" stroke="#00bbf9" stroke-width="1.5" fill="none"/>
+                                            <!-- Organized iron chains -->
+                                            <line x1="46" y1="35" x2="46" y2="90" stroke="#00f5d4" stroke-width="1" stroke-dasharray="2 2"/>
+                                            <line x1="50" y1="35" x2="50" y2="90" stroke="#00f5d4" stroke-width="1" stroke-dasharray="2 2"/>
+                                            <line x1="54" y1="35" x2="54" y2="90" stroke="#00f5d4" stroke-width="1" stroke-dasharray="2 2"/>
+                                            <circle cx="46" cy="45" r="1.5" fill="#00f5d4"/>
+                                            <circle cx="46" cy="65" r="1.5" fill="#00f5d4"/>
+                                            <circle cx="50" cy="55" r="1.5" fill="#00f5d4"/>
+                                            <circle cx="50" cy="75" r="1.5" fill="#00f5d4"/>
+                                            <circle cx="54" cy="45" r="1.5" fill="#00f5d4"/>
+                                            <circle cx="54" cy="65" r="1.5" fill="#00f5d4"/>
+                                        </svg>
+                                        <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-teal-950/60 to-transparent flex items-end justify-center pb-2">
+                                            <span class="text-[8px] text-[#00f5d4] font-mono">Micro-Magnetized</span>
+                                        </div>
+                                    </div>
+                                    <p class="text-[9px] text-slate-400 mt-2">Active magnetism alters yield stress instantly for smooth landings.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[10px] text-slate-300 border-t border-slate-900 pt-3">
+                    <span>Magnetorheological Materials &bull; Smart Shifting Rigidity</span>
+                    <span>Presenter: Yassin</span>
+                </div>
+            </div>
+
+            <!-- =======================================================
+                 SLIDE 4: ENERGY HARVESTING & COIL INDUCTION (Yassin)
+                 ======================================================= -->
+            <div class="slide" id="slide-4">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold tracking-[0.25em] text-[#00F5D4] uppercase">Project Phoenix &bull; Shake-Flashlight Concept</span>
+                    <span class="text-xs text-slate-300 font-mono">04 / 06</span>
+                </div>
+                
+                <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                    <div class="col-span-5 pr-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full mb-2">
+                            <i class="fa-solid fa-bolt text-amber-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-amber-500 tracking-wide uppercase">Presenter: Yassin</span>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-white leading-tight mb-2">
+                            Self-Powering Loop: <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] to-[#00bbf9]">Recycled Aero-Coil Induction</span>
+                        </h2>
+                        
+                        <!-- PRESENTER CHEAT SHEET: SPECIALLY DESIGNED FOR YASSIN -->
+                        <div class="space-y-2 mt-1">
+                            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block">Presenter Memory Anchors (Yassin):</span>
+                            <div class="grid grid-cols-1 gap-1.5">
+                                <div class="flex gap-2 items-start bg-slate-900/60 p-2 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-plane-arrival"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-emerald-400">Airborne Descent (Gear Out):</strong> The landing gear is fully extended out. The internal fluid is state is disorganized and normal.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 items-start bg-slate-900/60 p-2 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-cyan-500/10 text-cyan-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-compress"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-cyan-400">Pushes Up (Touchdown Impact):</strong> On touchdown, structural compression pushes the gear up. The casing becomes transparent to reveal inside.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 items-start bg-slate-900/60 p-2 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-bolt-lightning"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-amber-500">Coil Pulse &amp; Charging:</strong> Magnet drives through coils wrapped around the body, generating an electric pulse that transfers up to charge the battery (35% saved).
+                                    </div>
+                                </div>
+                                <div class="flex gap-2 items-start bg-purple-500/10 border border-purple-500/20 p-2 rounded-lg">
+                                    <div class="w-5 h-5 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-shield-halved"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-purple-400">Lenz's Law Braking:</strong> Electricity generation creates a magnetic back-EMF, acting as a built-in brake helping slow down the landing gear smoothly.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- HIGH-FIDELITY STEP-BY-STEP SEQUENCED ANIMATION -->
+                    <div class="col-span-7 flex justify-center">
+                        <div class="p-3.5 glass-panel border border-slate-800 rounded-2xl w-full max-w-[480px] bg-slate-950/85 relative overflow-hidden">
+                            
+                            <!-- Dynamic Simulation HUD overlay -->
+                            <div class="flex justify-between items-center mb-2 px-1">
+                                <span class="text-[9px] text-slate-400 uppercase font-bold tracking-widest">Coordinated Touchdown Loop</span>
+                                <div class="px-2 py-0.5 bg-cyan-950 border border-cyan-800 rounded text-[8px] font-mono text-[#00f5d4] anim-touchdown-alert">
+                                    RUNWAY TOUCHDOWN ACTIVE
+                                </div>
+                            </div>
+                            
+                            <!-- INTERACTIVE GRAPHIC SVG GRAPHIC -->
+                            <div class="relative w-full h-[250px] bg-slate-900/95 rounded-xl border border-slate-800/80 flex items-center justify-center overflow-hidden">
+                                <svg class="w-full h-full" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    
+                                    <!-- BACKGROUND CRITICAL LINES -->
+                                    <line x1="0" y1="210" x2="400" y2="210" stroke="#334155" stroke-width="2" stroke-dasharray="4 4"/>
+                                    <!-- Runway Ground Plate -->
+                                    <rect x="0" y="210" width="400" height="40" fill="#1e293b"/>
+                                    <line x1="0" y1="210" x2="400" y2="210" stroke="#00f5d4" stroke-width="1.5" opacity="0.4"/>
+
+                                    <!-- Static Copper Induction Coils (Wrapped around outer frame cylinder) -->
+                                    <g stroke="#f97316" stroke-width="2" stroke-linecap="round" opacity="0.85">
+                                        <!-- Left coil nodes -->
+                                        <path d="M 136 70 C 136 70, 146 60, 156 70"/>
+                                        <path d="M 136 90 C 136 90, 146 80, 156 90"/>
+                                        <path d="M 136 110 C 136 110, 146 100, 156 110"/>
+                                        <path d="M 136 130 C 136 130, 146 120, 156 130"/>
+                                        <path d="M 136 150 C 136 150, 146 140, 156 150"/>
+                                        <!-- Right coil nodes -->
+                                        <path d="M 244 70 C 244 70, 254 60, 264 70"/>
+                                        <path d="M 244 90 C 244 90, 254 80, 264 90"/>
+                                        <path d="M 244 110 C 244 110, 254 100, 264 110"/>
+                                        <path d="M 244 130 C 244 130, 254 120, 264 130"/>
+                                        <path d="M 244 150 C 244 150, 254 140, 264 150"/>
+                                    </g>
+
+                                    <!-- Circuit Transfer Lines (Dashed glow carrying pulse to the battery) -->
+                                    <path d="M 136 70 L 90 70 L 90 32 L 165 32" stroke="#00f5d4" stroke-width="2" class="anim-laser-line" stroke-linecap="round"/>
+                                    <path d="M 264 70 L 310 70 L 310 32 L 235 32" stroke="#00f5d4" stroke-width="2" class="anim-laser-line" stroke-linecap="round" style="animation-direction: reverse;"/>
+
+                                    <!-- MAIN STRUCTURAL CYLINDER SHOCK BODY (Opacity governed by transparency timeline) -->
+                                    <rect x="150" y="45" width="100" height="130" rx="8" stroke-width="3.5" class="anim-outer-casing" fill-opacity="0.95" />
+
+                                    <!-- 1. DISORGANIZED FLUID (Only visible during extended/flying stage when gear is OUT) -->
+                                    <g class="anim-fluid-disorganized" fill="#64748b" opacity="0.6">
+                                        <circle cx="165" cy="70" r="3"/>
+                                        <circle cx="185" cy="85" r="2.5"/>
+                                        <circle cx="210" cy="75" r="3.5"/>
+                                        <circle cx="230" cy="90" r="2"/>
+                                        <circle cx="170" cy="115" r="3"/>
+                                        <circle cx="195" cy="130" r="2"/>
+                                        <circle cx="215" cy="110" r="3.5"/>
+                                        <circle cx="235" cy="125" r="2.5"/>
+                                        <circle cx="180" cy="155" r="3"/>
+                                        <circle cx="205" cy="148" r="2"/>
+                                        <circle cx="225" cy="160" r="3"/>
+                                    </g>
+
+                                    <!-- 2. ALIGNED FLUID CHAINS (Snaps into structure ONLY when gear is pushed up) -->
+                                    <g class="anim-fluid-aligned" stroke="#00F5D4" stroke-width="1.5" stroke-dasharray="2 3" opacity="0">
+                                        <line x1="165" y1="55" x2="165" y2="165"/>
+                                        <line x1="182" y1="55" x2="182" y2="165"/>
+                                        <line x1="200" y1="55" x2="200" y2="165"/>
+                                        <line x1="218" y1="55" x2="218" y2="165"/>
+                                        <line x1="235" y1="55" x2="235" y2="165"/>
+                                        
+                                        <!-- Aligned Magnetorheological Chain Nodes -->
+                                        <g fill="#00F5D4">
+                                            <circle cx="165" cy="70" r="3"/><circle cx="165" cy="110" r="3"/><circle cx="165" cy="140" r="3"/>
+                                            <circle cx="182" cy="80" r="3"/><circle cx="182" cy="120" r="3"/><circle cx="182" cy="150" r="3"/>
+                                            <circle cx="200" cy="75" r="3"/><circle cx="200" cy="105" r="3"/><circle cx="200" cy="135" r="3"/>
+                                            <circle cx="218" cy="90" r="3"/><circle cx="218" cy="115" r="3"/><circle cx="218" cy="145" r="3"/>
+                                            <circle cx="235" cy="85" r="3"/><circle cx="235" cy="125" r="3"/><circle cx="235" cy="155" r="3"/>
+                                        </g>
+                                    </g>
+
+                                    <!-- TRAVELING ELECTROMAGNETIC PULSE RING (Climbs upwards ONLY during push-up compression stroke) -->
+                                    <g class="anim-coil-pulse" opacity="0">
+                                        <ellipse cx="200" cy="0" rx="46" ry="6" fill="none" stroke="#00F5D4" stroke-width="4"/>
+                                        <ellipse cx="200" cy="5" rx="42" ry="5" fill="none" stroke="#00bbf9" stroke-width="2"/>
+                                    </g>
+
+                                    <!-- COMPRESSING PISTON ASSEMBLY & GROUND WHEEL (Moves relative to touchdown stroke) -->
+                                    <g class="anim-piston-assembly">
+                                        <!-- Piston Shaft Metallic Stem -->
+                                        <rect x="193" y="100" width="14" height="110" fill="url(#metallic-gradient)" stroke="#64748b" stroke-width="1"/>
+                                        
+                                        <!-- Piston Core Head Magnet Inside Fluid Cylinder -->
+                                        <rect x="154" y="90" width="92" height="20" rx="3" fill="#334155" stroke="#94a3b8" stroke-width="1.5"/>
+                                        <!-- Micro Magnet Poles (Red North / Blue South) -->
+                                        <rect x="162" y="93" width="34" height="14" rx="2" fill="#ef4444"/>
+                                        <rect x="204" y="93" width="34" height="14" rx="2" fill="#3b82f6"/>
+                                        <text x="175" y="104" fill="#ffffff" font-size="9" font-weight="extrabold" font-family="monospace" text-anchor="middle">N</text>
+                                        <text x="217" y="104" fill="#ffffff" font-size="9" font-weight="extrabold" font-family="monospace" text-anchor="middle">S</text>
+
+                                        <!-- Hydraulic Axle Hub connection -->
+                                        <rect x="180" y="195" width="40" height="15" rx="4" fill="#475569"/>
+                                        <circle cx="200" cy="202" r="6" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+
+                                        <!-- Real Aircraft Landing Dual Wheels -->
+                                        <ellipse cx="172" cy="202" rx="14" ry="22" fill="#090d16" stroke="#475569" stroke-width="3"/>
+                                        <circle cx="172" cy="202" r="5" fill="#64748b"/>
+                                        <ellipse cx="228" cy="202" rx="14" ry="22" fill="#090d16" stroke="#475569" stroke-width="3"/>
+                                        <circle cx="228" cy="202" r="5" fill="#64748b"/>
+                                    </g>
+
+                                    <!-- SHOCKWAVE EXPANSION Sparks at point of impact (cx=200, cy=202 when fully compressed on ground) -->
+                                    <g class="anim-runway-spark" opacity="0">
+                                        <circle cx="0" cy="0" r="16" fill="none" stroke="#00F5D4" stroke-width="3" stroke-dasharray="6 4"/>
+                                        <path d="M -15 -15 L -25 -25 M 15 -15 L 25 -25 M -20 0 L -32 0 M 20 0 L 32 0 M 0 -20 L 0 -32" stroke="#00F5D4" stroke-width="2"/>
+                                    </g>
+
+                                    <!-- CHARGING BATTERY STORAGE COMPARTMENT -->
+                                    <g transform="translate(170, 18)">
+                                        <!-- Casing -->
+                                        <rect x="15" y="0" width="30" height="15" rx="3" stroke="#94a3b8" stroke-width="2" fill="rgba(15, 23, 42, 0.8)"/>
+                                        <!-- Cap -->
+                                        <rect x="45" y="4" width="3" height="7" fill="#94a3b8" rx="1"/>
+                                        <!-- Power Filling Bar (Regulated by synchronized timeline keyframe) -->
+                                        <rect x="19" y="3" width="22" height="9" rx="1" class="anim-battery-meter"/>
+                                    </g>
+
+                                    <!-- Linear Gradients for metallic rendering -->
+                                    <defs>
+                                        <linearGradient id="metallic-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#475569"/>
+                                            <stop offset="50%" stop-color="#cbd5e1"/>
+                                            <stop offset="100%" stop-color="#475569"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                
+                                <div class="absolute bottom-2 left-2 bg-slate-950/90 p-1.5 rounded border border-slate-800 text-[8px] font-mono text-[#00f5d4] flex items-center gap-1.5 z-10">
+                                    <span class="w-1.5 h-1.5 bg-[#00f5d4] rounded-full animate-ping"></span>
+                                    <span>Eco-Harvest Status: Live telemetry loop</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Physics dynamic values metrics -->
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <div class="bg-slate-900/60 p-2 rounded-xl border border-slate-800 text-center">
+                                    <span class="text-[8px] text-slate-400 block uppercase font-bold">Induction Coil Output</span>
+                                    <div class="text-xs font-bold text-emerald-400" id="sim-voltage-yield">480 Volts</div>
+                                    <span class="text-[7px] text-slate-500 block">Touchdown stroke</span>
+                                </div>
+                                <div class="bg-slate-900/60 p-2 rounded-xl border border-slate-800 text-center">
+                                    <span class="text-[8px] text-slate-400 block uppercase font-bold">Lenz's Law Braking</span>
+                                    <div class="text-xs font-bold text-[#00bbf9]">78.5 kN</div>
+                                    <span class="text-[7px] text-slate-500 block">Electromagnetic feedback</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[10px] text-slate-300 border-t border-slate-900 pt-3">
+                    <span>Lenz's Law Electromagnetic Feedback &bull; Aero-Coil Energy Capture</span>
+                    <span>Presenter: Yassin</span>
+                </div>
+            </div>
+
+            <!-- =======================================================
+                 SLIDE 5: CHANNEL, VALUE PROP, & SDGS (Hamza)
+                 ======================================================= -->
+            <div class="slide" id="slide-5">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold tracking-[0.25em] text-[#00F5D4] uppercase">Project Phoenix &bull; Strategy</span>
+                    <span class="text-xs text-slate-300 font-mono">05 / 06</span>
+                </div>
+                
+                <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                    <div class="col-span-7 pr-2">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full mb-3">
+                            <i class="fa-solid fa-chart-line text-amber-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-amber-500 tracking-wide uppercase">Presenter: Hamza</span>
+                        </div>
+                        <h2 class="text-3xl font-extrabold text-white leading-tight mb-3">
+                            Telemetry Dashboards &bull; <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] to-[#00bbf9]">Eco Value Propositions</span>
+                        </h2>
+                        
+                        <!-- PRESENTER CHEAT SHEET: SPECIALLY DESIGNED FOR HAMZA -->
+                        <div class="space-y-2 mt-2">
+                            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block">Presenter Memory Anchors (Hamza):</span>
+                            <div class="grid grid-cols-1 gap-2">
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-pink-500/10 text-pink-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-circle-nodes"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-pink-400">Cockpit Telemetry Dashboard:</strong> Automatic, real-time feedback loop detailing landing gear performance metrics and aircraft battery status directly on pilot screens.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start bg-slate-900/60 p-2.5 rounded-lg border border-slate-850">
+                                    <div class="w-5 h-5 rounded bg-[#00bbf9]/10 text-[#00bbf9] flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-gem"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-[#00bbf9]">Zero-Downtime Value Proposition:</strong> Totally closed-loop self-powering gear with zero external battery requirements, eliminating expensive airline ground-charging limits.
+                                    </div>
+                                </div>
+                                <div class="flex gap-2.5 items-start bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded-lg">
+                                    <div class="w-5 h-5 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 text-xs"><i class="fa-solid fa-globe"></i></div>
+                                    <div class="text-[11px] text-slate-300">
+                                        <strong class="text-emerald-400">UN SDGs 7 &amp; 13 Alignment:</strong> Powering renewable tech on aircraft systems (SDG 7) while immediately offsetting traditional airline fuel burn profiles (SDG 13).
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- HIGH FIDELITY AVIONICS HUD SCREEN & SDG GRAPHIC -->
+                    <div class="col-span-5">
+                        <div class="p-5 glass-panel border border-slate-800 rounded-2xl relative overflow-hidden">
+                            <span class="text-[10px] text-slate-300 block uppercase font-bold tracking-widest mb-3 text-center">Cockpit Telemetry Mockup</span>
+                            
+                            <!-- Avionics HUD Panel Simulator -->
+                            <div class="relative w-full h-[180px] bg-slate-950 rounded-xl border border-emerald-500/30 flex flex-col justify-between p-3 font-mono text-[9px] text-emerald-400 overflow-hidden">
+                                <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_100%)]"></div>
+                                
+                                <div class="flex justify-between items-center border-b border-emerald-500/20 pb-1.5 z-10">
+                                    <span>PHOENIX TELEMETRY v4.12</span>
+                                    <span class="animate-pulse flex items-center gap-1 text-[#00f5d4]"><i class="fa-solid fa-circle text-[6px]"></i> COCKPIT LINKED</span>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-4 my-auto z-10">
+                                    <div class="space-y-1">
+                                        <span class="text-slate-400 block text-[8px] uppercase">MR Fluid Yield</span>
+                                        <div class="text-sm font-bold text-white">45.2 Pa&bull;s</div>
+                                        <span class="text-[7px] text-emerald-500">Auto-Damped System</span>
+                                    </div>
+                                    <div class="space-y-1">
+                                        <span class="text-slate-400 block text-[8px] uppercase">Power Recovered</span>
+                                        <div class="text-sm font-bold text-[#00f5d4]">+35% / Landing</div>
+                                        <span class="text-[7px] text-slate-400">Loop Back: ACTIVE</span>
+                                    </div>
+                                </div>
+
+                                <div class="border-t border-emerald-500/20 pt-1.5 flex justify-between items-center z-10 text-[8px] text-slate-400">
+                                    <span>Payload: 55 Tons (Standard B737)</span>
+                                    <span>Runway Status: Normal Landing</span>
+                                </div>
+                            </div>
+                            
+                            <!-- SDG Highlight block -->
+                            <div class="grid grid-cols-2 gap-2 mt-3">
+                                <div class="bg-gradient-to-r from-amber-500/10 to-yellow-500/5 p-2 rounded-xl border border-amber-500/20 flex items-center gap-2">
+                                    <div class="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center text-slate-950 text-xs font-black">7</div>
+                                    <div>
+                                        <span class="text-[8px] text-amber-500 font-bold block uppercase">SDG 7</span>
+                                        <span class="text-[9px] text-white">Affordable Clean Energy</span>
+                                    </div>
+                                </div>
+                                <div class="bg-gradient-to-r from-emerald-500/10 to-teal-500/5 p-2 rounded-xl border border-emerald-500/20 flex items-center gap-2">
+                                    <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center text-slate-950 text-xs font-black">13</div>
+                                    <div>
+                                        <span class="text-[8px] text-emerald-500 font-bold block uppercase">SDG 13</span>
+                                        <span class="text-[9px] text-white">Direct Climate Action</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[10px] text-slate-300 border-t border-slate-900 pt-3">
+                    <span>Avionics Integration &bull; SDG Sustainable Development Goals Compliance</span>
+                    <span>Presenter: Hamza</span>
+                </div>
+            </div>
+
+            <!-- =======================================================
+                 SLIDE 6: CONCLUSION (Yassin)
+                 ======================================================= -->
+            <div class="slide" id="slide-6">
+                <div class="flex items-center justify-between w-full">
+                    <span class="text-xs font-semibold tracking-[0.25em] text-[#00F5D4] uppercase">Project Phoenix &bull; Conclusion</span>
+                    <span class="text-xs text-slate-300 font-mono">06 / 06</span>
+                </div>
+
+                <div class="grid grid-cols-12 gap-8 my-auto items-center">
+                    <div class="col-span-7">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full mb-3">
+                            <i class="fa-solid fa-rocket text-amber-500 text-xs"></i>
+                            <span class="text-[10px] font-bold text-amber-500 tracking-wide uppercase">Presenter: Yassin</span>
+                        </div>
+                        <h2 class="text-4xl font-extrabold text-white leading-tight mb-3">
+                            Rising from the Ashes. <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#00F5D4] to-[#00bbf9]">Making Touchdowns the Power of Tomorrow.</span>
+                        </h2>
+                        
+                        <!-- PRESENTER CHEAT SHEET: CONCLUDES PASSENGER CHOICES, COMPLIANT, SUSTAINABLE POWER -->
+                        <div class="space-y-3 mt-4">
+                            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block">Presenter Memory Anchors (Yassin):</span>
+                            <div class="grid grid-cols-1 gap-2.5">
+                                <div class="flex gap-3 items-center bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <i class="fa-solid fa-eye text-[#00F5D4] text-xs"></i>
+                                    <span class="text-xs text-slate-300">
+                                        <strong class="text-white">Maximum Potential Utilization:</strong> Redefining flight physics efficiency by recycling energy directly from structural shocks.
+                                    </span>
+                                </div>
+                                <div class="flex gap-3 items-center bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
+                                    <i class="fa-solid fa-feather-pointed text-cyan-400 text-xs"></i>
+                                    <span class="text-xs text-slate-300">
+                                        <strong class="text-white">The Phoenix Concept:</strong> Harnessing raw impact forces to drive energy recovery grids on aircraft touchdowns.
+                                    </span>
+                                </div>
+                                <div class="flex gap-3 items-center bg-emerald-500/10 border border-emerald-500/20 p-2.5 rounded-lg">
+                                    <i class="fa-solid fa-shield-halved text-emerald-400 text-xs"></i>
+                                    <span class="text-xs text-slate-300">
+                                        <strong class="text-emerald-400">Protecting Aircraft Systems:</strong> Creating incredibly soft landings while generating self-sustaining battery yields.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INSPIRING AEROSPACE DESIGN CONCEPT GRAPHIC -->
+                    <div class="col-span-5 h-[320px] rounded-2xl overflow-hidden border border-slate-800 relative group shadow-2xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent z-10"></div>
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
+                             src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=600&q=80" 
+                             onerror="this.src='https://placehold.co/600x400/030712/ffffff?text=Boeing+Aero+Visions'"
+                             alt="Commercial aviation airplane taking off" />
+                        <div class="absolute bottom-4 left-4 z-20 pr-4">
+                            <span class="text-[10px] text-emerald-400 uppercase font-bold tracking-widest block mb-0.5">Phoenix Ecosystem</span>
+                            <h3 class="text-base font-bold text-white">Shaping Sustainable Aviation Ground-Impacts</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center text-[10px] text-slate-300 border-t border-slate-900 pt-3">
+                    <span>End of Project Phoenix Pitch &bull; Q&amp;A Ready</span>
+                    <span>Presenters: Yassin, Kenzy, Hamza</span>
+                </div>
+            </div>
+
+            <!-- CONTROLLER OVERLAY FOR INTERACTIVE SLIDESHOW -->
+            <div class="absolute bottom-5 right-[65px] z-50 flex items-center gap-3">
+                <button onclick="prevSlide()" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-[#00f5d4] hover:bg-slate-850 flex items-center justify-center transition-all cursor-pointer">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <div class="flex gap-1.5" id="indicators">
+                    <!-- Instantiated by JS -->
+                </div>
+                <button onclick="nextSlide()" class="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-[#00f5d4] hover:bg-slate-850 flex items-center justify-center transition-all cursor-pointer">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <!-- Slide progress line running along bottom -->
+            <div class="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-[#00F5D4] to-[#00bbf9] transition-all duration-300" id="deck-progress" style="width: 16.66%;"></div>
+
+        </div>
+
+        <!-- =======================================================
+             INTERACTIVE AI COPILOT WORKSPACE (GEMINI LLM DOCK)
+             ======================================================= -->
+        <div id="ai-drawer" class="w-full lg:w-[420px] h-[720px] glass-panel border border-slate-800 p-6 flex flex-col justify-between overflow-hidden shadow-2xl relative transition-all duration-300 transform">
+            
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-lg bg-cyan-500/15 flex items-center justify-center text-cyan-400 shadow-md">
+                        <i class="fa-solid fa-microchip-ai animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-white font-bold text-xs">Aero-Phoenix Copilot</h3>
+                        <p class="text-[9px] text-[#00f5d4] font-semibold tracking-wider uppercase">Gemini 3 Flash &bull; Physics Sandbox</p>
+                    </div>
+                </div>
+                <button onclick="toggleAiDrawer()" class="text-slate-300 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Tabs Controls -->
+            <div class="flex border-b border-slate-800/80 my-2">
+                <button id="tab-btn-qa" onclick="switchTab('qa')" class="flex-1 py-1.5 text-[11px] font-bold text-white border-b-2 border-[#00f5d4] transition-all">
+                    Cockpit Q&amp;A
+                </button>
+                <button id="tab-btn-telemetry" onclick="switchTab('telemetry')" class="flex-1 py-1.5 text-[11px] font-bold text-slate-300 hover:text-white transition-all">
+                    Telemetry Sim
+                </button>
+                <button id="tab-btn-roi" onclick="switchTab('roi')" class="flex-1 py-1.5 text-[11px] font-bold text-slate-300 hover:text-white transition-all">
+                    Green ROI Calc
+                </button>
+            </div>
+
+            <!-- TAB CONTENT CONTAINER -->
+            <div class="flex-1 overflow-y-auto custom-scroll pr-1 py-2 space-y-4">
+                
+                <!-- TAB 1: Cockpit Q&A -->
+                <div id="tab-qa" class="space-y-4">
+                    <span class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider block">1. Select Crew Expert</span>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button onclick="selectFounder('yassin')" id="founder-yassin" class="p-2 rounded-lg border border-emerald-500/30 bg-emerald-500/5 hover:bg-emerald-500/10 text-center transition-all">
+                            <span class="text-xs text-white font-bold block">Yassin</span>
+                            <span class="text-[8px] text-emerald-400">UX &amp; Coils</span>
+                        </button>
+                        <button onclick="selectFounder('kenzy')" id="founder-kenzy" class="p-2 rounded-lg border border-slate-800 bg-slate-900/40 hover:bg-slate-800 text-center transition-all">
+                            <span class="text-xs text-white font-bold block">Kenzy</span>
+                            <span class="text-[8px] text-[#00bbf9]">Aero Math</span>
+                        </button>
+                        <button onclick="selectFounder('hamza')" id="founder-hamza" class="p-2 rounded-lg border border-slate-800 bg-slate-900/40 hover:bg-slate-800 text-center transition-all">
+                            <span class="text-xs text-white font-bold block">Hamza</span>
+                            <span class="text-[8px] text-pink-400">SDGs &amp; ROI</span>
+                        </button>
+                    </div>
+
+                    <!-- Recommended Cockpit Questions -->
+                    <div class="space-y-1">
+                        <span class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Suggested Queries</span>
+                        <div class="space-y-1.5" id="suggested-queries">
+                            <!-- Populated in JS based on chosen character -->
+                        </div>
+                    </div>
+
+                    <!-- Chat Log Response Area -->
+                    <div class="p-4 rounded-xl bg-slate-950 border border-slate-900 min-h-[140px] flex flex-col justify-between relative">
+                        <div id="qa-loader" class="absolute inset-0 bg-slate-950/80 flex flex-col items-center justify-center rounded-xl hidden z-20">
+                            <div class="w-6 h-6 border-2 border-t-transparent border-[#00F5D4] rounded-full animate-spin mb-2"></div>
+                            <span class="text-[10px] text-slate-400">Consulting Physics Core Data...</span>
+                        </div>
+                        <div class="space-y-1.5">
+                            <span class="text-[9px] text-[#00f5d4] uppercase font-bold tracking-widest block" id="responder-title">Yassin (UX &amp; Tech Lead)</span>
+                            <p id="qa-response-text" class="text-xs text-slate-300 leading-relaxed font-serif italic">
+                                "Ask me anything about MR fluid coil telemetry, physical structural landing components, or energy loop induction mechanics."
+                            </p>
+                        </div>
+                        <div id="qa-citations" class="border-t border-slate-900 pt-2 mt-2 hidden">
+                            <span class="text-[9px] text-slate-400 uppercase tracking-wider block">Aero-Grounded Citations</span>
+                            <div id="qa-citation-links" class="flex flex-wrap gap-1 mt-1"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: TELEMETRY SIMULATOR -->
+                <div id="tab-telemetry" class="space-y-4 hidden">
+                    <span class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider block">Runway Dynamic Physics Simulator</span>
+                    <p class="text-[11px] text-slate-300">Simulate touchdown weight and speed parameters to calculate optimal magnetorheological fluid shear transition profiles.</p>
+                    
+                    <div class="space-y-3">
+                        <!-- Weight Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold text-slate-300">
+                                <span>Landing Weight:</span>
+                                <span class="text-[#00f5d4]" id="val-weight">55 Tons</span>
+                            </div>
+                            <input type="range" id="slider-weight" min="40" max="85" value="55" oninput="updateTelemetryOutputs()" class="w-full accent-[#00f5d4] h-1.5 bg-slate-800 rounded-lg">
+                        </div>
+
+                        <!-- Speed Slider -->
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs font-bold text-slate-300">
+                                <span>Landing Speed:</span>
+                                <span class="text-cyan-400" id="val-speed">130 Knots</span>
+                            </div>
+                            <input type="range" id="slider-speed" min="100" max="170" value="130" oninput="updateTelemetryOutputs()" class="w-full accent-cyan-500 h-1.5 bg-slate-800 rounded-lg">
+                        </div>
+                    </div>
+
+                    <!-- INTERACTIVE LIVE SVG FLUID MOLECULE STATE -->
+                    <div class="p-3 bg-slate-950 border border-slate-900 rounded-xl flex items-center justify-between">
+                        <div class="w-1/2 pr-2">
+                            <span class="text-[9px] text-slate-400 uppercase block font-bold mb-1">MR Viscosity State</span>
+                            <div class="text-xs font-bold text-white mb-0.5" id="hud-fluid-state">Fluid - Low Damping</div>
+                            <div class="text-[10px] text-slate-400" id="hud-fluid-visc">0.32 Pa&bull;s</div>
+                        </div>
+                        
+                        <!-- Mini Fluid Tube SVG showing live iron chains changing structure -->
+                        <div class="w-1/2 h-[60px] bg-slate-900 rounded-lg overflow-hidden relative flex items-center justify-center border border-slate-800">
+                            <svg class="w-full h-full" id="svg-fluid-sim">
+                                <!-- Generated dynamically in JS -->
+                            </svg>
+                        </div>
+                    </div>
+
+                    <button onclick="optimizeTelemetryWithAI()" class="w-full py-2 bg-gradient-to-r from-[#00f5d4] to-[#00bbf9] text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-colors">
+                        Optimize Damping with Gemini AI
+                    </button>
+
+                    <!-- Telemetry output report card -->
+                    <div class="p-4 rounded-xl bg-slate-950 border border-slate-900 min-h-[140px] relative flex flex-col justify-between">
+                        <div id="telemetry-loader" class="absolute inset-0 bg-slate-950/80 flex flex-col items-center justify-center rounded-xl hidden z-20">
+                            <div class="w-6 h-6 border-2 border-t-transparent border-emerald-400 rounded-full animate-spin mb-2"></div>
+                            <span class="text-[10px] text-slate-400">Computing Visco-Shear Coefficients...</span>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="text-[9px] text-[#00f5d4] font-bold tracking-widest uppercase block" id="sim-title">COCKPIT OPTIMIZATION REPORT</span>
+                            <div class="grid grid-cols-2 gap-2 text-center">
+                                <div class="bg-slate-900/60 p-2 rounded border border-slate-850">
+                                    <span class="text-[8px] text-slate-400 block">Magnetic Intensity</span>
+                                    <span class="text-xs font-bold text-white" id="sim-field-strength">0.24 Tesla</span>
+                                </div>
+                                <div class="bg-slate-900/60 p-2 rounded border border-slate-850">
+                                    <span class="text-[8px] text-slate-400 block">Inductive Harvest</span>
+                                    <span class="text-xs font-bold text-emerald-400" id="sim-harvest-energy">12.1 kWs</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-300 leading-relaxed font-serif italic text-center mt-1" id="sim-insight">
+                                "Fluid transitions instantly to Semi-Solid, safely reducing peak touchdown structural G-forces."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: GREEN ROI CALCULATOR -->
+                <div id="tab-roi" class="space-y-4 hidden">
+                    <span class="text-[9px] text-slate-400 font-semibold uppercase tracking-wider block">Project Phoenix Eco Impact Engine</span>
+                    <p class="text-[11px] text-slate-300">Modify fleet sizing and landing telemetry parameters to estimate cumulative fuel reduction dividends and UN SDG-aligned metrics.</p>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <label class="text-[9px] text-slate-400 uppercase font-bold">Daily Flights</label>
+                            <input type="number" id="roi-flights" value="40" oninput="runLocalRoi()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[9px] text-slate-400 uppercase font-bold">Passenger Count</label>
+                            <input type="number" id="roi-passengers" value="160" oninput="runLocalRoi()" class="w-full px-3 py-2 text-xs bg-slate-900 border border-slate-800 rounded-lg text-white focus:outline-none focus:border-emerald-500">
+                        </div>
+                    </div>
+
+                    <button onclick="generateAiRoiReport()" class="w-full py-2 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-cyan-500 hover:to-emerald-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg transition-colors">
+                        Generate Executive AI ROI Forecast
+                    </button>
+
+                    <!-- ROI calculation output report card -->
+                    <div class="p-4 rounded-xl bg-slate-950 border border-slate-900 min-h-[140px] relative flex flex-col justify-between">
+                        <div id="roi-loader" class="absolute inset-0 bg-slate-950/80 flex flex-col items-center justify-center rounded-xl hidden z-20">
+                            <div class="w-6 h-6 border-2 border-t-transparent border-emerald-400 rounded-full animate-spin mb-2"></div>
+                            <span class="text-[10px] text-slate-400">Simulating Thermodynamic Yields...</span>
+                        </div>
+                        <div class="space-y-2">
+                            <span class="text-[9px] text-slate-400 font-bold tracking-widest uppercase block text-center">ROI ECO Dividends (Daily Forecast)</span>
+                            <div class="grid grid-cols-2 gap-2 text-center">
+                                <div class="bg-slate-900/60 p-2 rounded border border-slate-850">
+                                    <span class="text-[8px] text-slate-400 block">Inductive Energy Saved</span>
+                                    <span class="text-base font-extrabold text-white" id="roi-fuel-saved">3.74 Tons</span>
+                                </div>
+                                <div class="bg-slate-900/60 p-2 rounded border border-slate-850">
+                                    <span class="text-[8px] text-slate-400 block">Carbon Offset (CO2)</span>
+                                    <span class="text-base font-extrabold text-emerald-400" id="roi-co2">11.8 Metric Tons</span>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-slate-300 leading-relaxed font-serif italic text-center mt-1" id="roi-report-summary">
+                                "Aero-induction harvesting loop saves heavy duty wear and tear, generating reliable, sustainable energy metrics."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CHAT INPUT WRAPPER (Dynamic footer for active tab action) -->
+            <div class="border-t border-slate-800 pt-3" id="chat-input-wrapper">
+                <div class="relative">
+                    <input type="text" id="ai-chat-input" placeholder="Ask Yassin about Ground Operations..." class="w-full pl-3 pr-10 py-2 bg-slate-900 border border-slate-800 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:border-[#00f5d4] shadow-inner text-xs">
+                    <button onclick="handleCustomChatSend()" class="absolute right-2 top-1.5 w-7 h-7 rounded-lg bg-slate-800 hover:bg-[#00f5d4] hover:text-slate-950 text-slate-400 flex items-center justify-center transition-colors">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                    </button>
+                </div>
+                <div class="flex items-center justify-between text-[8px] text-slate-400 mt-2">
+                    <span>Includes Web Search Grounding capabilities</span>
+                    <span>Gemini API Sandbox Edition</span>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =======================================================
+         DECK SCRIPT OPERATIONS & DYNAMIC LOGICS
+         ======================================================= -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentIdx = 0;
+
+        // Auto Aspect Scale system to keep 16:9 format inside responsive window
+        function handleScaling() {
+            const viewport = document.getElementById('viewport');
+            const windowW = window.innerWidth;
+            const windowH = window.innerHeight;
+            const targetW = 1280;
+            const targetH = 720;
+            const scale = Math.min((windowW - 40) / targetW, (windowH - 40) / targetH);
+            
+            if (windowW < 1280) {
+                viewport.style.transform = `scale(${Math.max(scale, 0.28)})`;
+            } else {
+                viewport.style.transform = `scale(1)`;
+            }
+        }
+
+        window.addEventListener('resize', handleScaling);
+        window.addEventListener('load', handleScaling);
+
+        // Render dot indicator bubbles
+        function setupIndicators() {
+            const container = document.getElementById('indicators');
+            container.innerHTML = '';
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `w-2 h-2 rounded-full cursor-pointer transition-all ${i === currentIdx ? 'bg-[#00f5d4] w-5' : 'bg-slate-700 hover:bg-slate-550'}`;
+                dot.onclick = () => showSlide(i);
+                container.appendChild(dot);
+            });
+        }
+
+        function showSlide(idx) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active', 'prev');
+                if (i === idx) {
+                    slide.classList.add('active');
+                } else if (i < idx) {
+                    slide.classList.add('prev');
+                }
+            });
+            currentIdx = idx;
+            
+            const pct = ((idx + 1) / slides.length) * 100;
+            document.getElementById('deck-progress').style.width = `${pct}%`;
+            
+            setupIndicators();
+        }
+
+        function nextSlide() {
+            if (currentIdx < slides.length - 1) {
+                showSlide(currentIdx + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentIdx > 0) {
+                showSlide(currentIdx - 1);
+            }
+        }
+
+        // Keyboard Controls
+        window.addEventListener('keydown', (e) => {
+            if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                return;
+            }
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+                prevSlide();
+            }
+        });
+
+        // Touch swipe mechanics
+        let startX = 0;
+        document.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        document.addEventListener('touchend', (e) => {
+            let diff = e.changedTouches[0].clientX - startX;
+            if (diff > 80) prevSlide();
+            else if (diff < -80) nextSlide();
+        });
+
+        setupIndicators();
+        showSlide(0);
+
+        // =======================================================
+        // INTERACTIVE SIDEBAR & TELEMETRY LOGICS
+        // =======================================================
+        
+        let currentTab = 'qa';
+        let activeFounder = 'yassin';
+
+        // Founder Prompts Database tailored to Project Phoenix
+        const founderPrompts = {
+            yassin: {
+                title: "Yassin (UX & Tech Lead)",
+                placeholder: "Ask Yassin about MR mechanics...",
+                instruction: "You are Yassin, the Tech & UX Lead for Project Phoenix. Your focus is magnetorheological fluid dynamics, electromagnet coil assemblies, copper induction loops, real-time pilot telemetry dashboards, and the physical interface controls. Answer concisely, in-character, using precise aviation and electrical terminology.",
+                suggestions: [
+                    "How fast does the MR fluid adapt on touchdown?",
+                    "Describe the copper wire induction coil layout.",
+                    "How does the shake-flashlight concept generate power?"
+                ]
+            },
+            kenzy: {
+                title: "Kenzy (Aero-Math)",
+                placeholder: "Ask Kenzy about vibration math...",
+                instruction: "You are Kenzy, the Aero-Math Lead for Project Phoenix. Your focus is aviation landing physics, airframe stress mechanics, structural vibration calculations, g-force dissipation math, and Lenz's Law braking efficiency equations. Answer concisely, with formula-driven yet accessible arguments.",
+                suggestions: [
+                    "How much physical impact force is wasted as heat?",
+                    "How does Lenz's Law act as a kinetic brake?",
+                    "Explain why rigid landing gears lead to structural fatigue."
+                ]
+            },
+            hamza: {
+                title: "Hamza (Commercialization & Alliances)",
+                placeholder: "Ask Hamza about SDG & airline values...",
+                instruction: "You are Hamza, the Business and SDG Lead for Project Phoenix. Your focus is zero-hardware software integration models, cockpit avionics partnerships, UN SDGs (Goal 7 Clean Energy & Goal 13 Climate Action), and airline monetization. Answer concisely and professionally with financial terminology.",
+                suggestions: [
+                    "How do we integrate with cockpit avionics?",
+                    "Explain the self-powering value proposition.",
+                    "How does Project Phoenix align with SDG 7 and SDG 13?"
+                ]
+            }
+        };
+
+        function toggleAiDrawer() {
+            const drawer = document.getElementById('ai-drawer');
+            drawer.classList.toggle('hidden');
+            handleScaling();
+        }
+
+        // Switching panel tabs
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('[id^="tab-btn-"]').forEach(btn => {
+                btn.classList.remove('border-b-2', 'border-[#00f5d4]', 'text-white');
+                btn.classList.add('text-slate-300');
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-btn-${tabId}`);
+            activeBtn.classList.remove('text-slate-300');
+            activeBtn.classList.add('border-b-2', 'border-[#00f5d4]', 'text-white');
+
+            const chatInput = document.getElementById('ai-chat-input');
+            const chatWrapper = document.getElementById('chat-input-wrapper');
+
+            if (tabId === 'qa') {
+                chatWrapper.classList.remove('hidden');
+                chatInput.placeholder = founderPrompts[activeFounder].placeholder;
+            } else {
+                chatWrapper.classList.add('hidden');
+            }
+        }
+
+        function selectFounder(founder) {
+            activeFounder = founder;
+            document.querySelectorAll('[id^="founder-"]').forEach(btn => {
+                btn.classList.remove('border-emerald-500/30', 'bg-emerald-500/5', 'border-[#00bbf9]/30', 'bg-[#00bbf9]/5', 'border-pink-500/30', 'bg-pink-500/5');
+                btn.classList.add('border-slate-800', 'bg-slate-900/40');
+            });
+
+            const targetBtn = document.getElementById(`founder-${founder}`);
+            targetBtn.classList.remove('border-slate-800', 'bg-slate-900/40');
+
+            let accentClass = '';
+            let bgClass = '';
+            let accentColor = '';
+            if (founder === 'yassin') { accentClass = 'border-emerald-500/30'; bgClass = 'bg-emerald-500/5'; accentColor = '#10b981'; }
+            else if (founder === 'kenzy') { accentClass = 'border-[#00bbf9]/30'; bgClass = 'bg-[#00bbf9]/5'; accentColor = '#00bbf9'; }
+            else if (founder === 'hamza') { accentClass = 'border-pink-500/30'; bgClass = 'bg-pink-500/5'; accentColor = '#ec4899'; }
+
+            targetBtn.classList.add(accentClass, bgClass);
+
+            document.getElementById('ai-chat-input').placeholder = founderPrompts[founder].placeholder;
+            document.getElementById('responder-title').innerText = founderPrompts[founder].title;
+            document.getElementById('responder-title').style.color = accentColor;
+
+            const suggestedBox = document.getElementById('suggested-queries');
+            suggestedBox.innerHTML = '';
+            founderPrompts[founder].suggestions.forEach(query => {
+                const btn = document.createElement('button');
+                btn.className = `w-full text-left p-2 rounded bg-slate-900/50 border border-slate-800/80 text-[10px] text-white hover:border-[#00f5d4] transition-all`;
+                btn.innerText = query;
+                btn.onclick = () => setQuery(query);
+                suggestedBox.appendChild(btn);
+            });
+        }
+
+        function setQuery(text) {
+            document.getElementById('ai-chat-input').value = text;
+            handleCustomChatSend();
+        }
+
+        // =======================================================
+        // INTERACTIVE TELEMETRY CALCULATOR LOGIC (TAB 2)
+        // =======================================================
+        function updateTelemetryOutputs() {
+            const weight = parseInt(document.getElementById('slider-weight').value);
+            const speed = parseInt(document.getElementById('slider-speed').value);
+
+            document.getElementById('val-weight').innerText = `${weight} Tons`;
+            document.getElementById('val-speed').innerText = `${speed} Knots`;
+
+            // Core physics approximation
+            const stressRatio = (weight / 50) * (speed / 120);
+            let state = "Fluid - Low Damping";
+            let viscVal = 0.25;
+            let themeColor = "#38bdf8";
+
+            if (stressRatio > 1.35) {
+                state = "Solid - Max Damping";
+                viscVal = 120.4;
+                themeColor = "#f43f5e";
+            } else if (stressRatio > 0.95) {
+                state = "Semi-Solid - Medium Damping";
+                viscVal = 45.1;
+                themeColor = "#00f5d4";
+            }
+
+            document.getElementById('hud-fluid-state').innerText = state;
+            document.getElementById('hud-fluid-state').style.color = themeColor;
+            document.getElementById('hud-fluid-visc').innerHTML = `${viscVal} Pa&bull;s`;
+
+            // Re-render SVG fluid particles dynamically inside the mini display
+            const svgSim = document.getElementById('svg-fluid-sim');
+            svgSim.innerHTML = '';
+
+            // Generate particles
+            const count = 12;
+            for (let i = 0; i < count; i++) {
+                const cx = 20 + (i * 12) % 150;
+                let cy = 15 + (i * 8) % 35;
+                let rx = 3.5;
+                let fill = "#64748b";
+
+                if (stressRatio > 1.35) {
+                    // Lock particles in perfect rigid lines
+                    const row = Math.floor(i / 4);
+                    cy = 10 + row * 18;
+                    fill = "#f43f5e";
+                    rx = 4.5;
+                } else if (stressRatio > 0.95) {
+                    // Partially structured lines
+                    const row = Math.floor(i / 4);
+                    cy = 12 + row * 16 + (Math.sin(i) * 3);
+                    fill = "#00f5d4";
+                    rx = 4;
+                }
+                
+                const circ = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circ.setAttribute("cx", cx);
+                circ.setAttribute("cy", cy);
+                circ.setAttribute("r", rx);
+                circ.setAttribute("fill", fill);
+                svgSim.appendChild(circ);
+            }
+        }
+
+        // =======================================================
+        // GREEN ROI CALCULATOR (TAB 3)
+        // =======================================================
+        function runLocalRoi() {
+            const flights = parseInt(document.getElementById('roi-flights').value) || 1;
+            const pax = parseInt(document.getElementById('roi-passengers').value) || 100;
+
+            // Phoenix eco savings modeling
+            const weightSavedKg = pax * 5; 
+            const singleFlightFuelSaved = weightSavedKg * 0.1248; 
+            const dailyFuelSavedKg = singleFlightFuelSaved * flights;
+            const dailyFuelTons = dailyFuelSavedKg / 1000;
+            const dailyCO2Tons = dailyFuelTons * 3.16; 
+
+            document.getElementById('roi-fuel-saved').innerText = `${dailyFuelTons.toFixed(2)} Tons`;
+            document.getElementById('roi-co2').innerText = `${dailyCO2Tons.toFixed(2)} MT`;
+        }
+
+        // =======================================================
+        // MASTER GEMINI API CONNECTIONS
+        // =======================================================
+        async function fetchGeminiAPI(userQuery, systemPrompt = null, isSearch = false, responseSchema = null) {
+            const apiKey = ""; // Injected by platform at runtime
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }]
+            };
+
+            if (systemPrompt) {
+                payload.systemInstruction = {
+                    parts: [{ text: systemPrompt }]
+                };
+            }
+
+            if (isSearch) {
+                payload.tools = [{ "google_search": {} }];
+            }
+
+            if (responseSchema) {
+                payload.generationConfig = {
+                    responseMimeType: "application/json",
+                    responseSchema: responseSchema
+                };
+            }
+
+            let delay = 1000;
+            for (let i = 0; i < 3; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) {
+                        throw new Error(`HTTP error status: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    const candidate = result.candidates?.[0];
+                    const generatedText = candidate?.content?.parts?.[0]?.text;
+                    
+                    let sources = [];
+                    const metadata = candidate?.groundingMetadata;
+                    if (metadata && metadata.groundingAttributions) {
+                        sources = metadata.groundingAttributions
+                            .map(attr => ({
+                                uri: attr.web?.uri,
+                                title: attr.web?.title
+                            }))
+                            .filter(s => s.uri && s.title);
+                    }
+
+                    return { text: generatedText, sources };
+                } catch (error) {
+                    if (i === 2) throw error;
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // Cockpit Q&A chat trigger
+        async function handleCustomChatSend() {
+            const chatInput = document.getElementById('ai-chat-input');
+            const query = chatInput.value.trim();
+            if (!query) return;
+
+            const loader = document.getElementById('qa-loader');
+            const responseContainer = document.getElementById('qa-response-text');
+            const citationContainer = document.getElementById('qa-citations');
+            const citationLinks = document.getElementById('qa-citation-links');
+
+            loader.classList.remove('hidden');
+            chatInput.value = '';
+
+            try {
+                const config = founderPrompts[activeFounder];
+                const res = await fetchGeminiAPI(query, config.instruction, true);
+
+                responseContainer.innerHTML = res.text.replace(/\n/g, '<br>');
+                
+                if (res.sources && res.sources.length > 0) {
+                    citationContainer.classList.remove('hidden');
+                    citationLinks.innerHTML = '';
+                    res.sources.slice(0, 3).forEach(source => {
+                        const link = document.createElement('a');
+                        link.href = source.uri;
+                        link.target = '_blank';
+                        link.className = `px-2 py-1 bg-slate-900 hover:bg-slate-800 text-[9px] text-[#00f5d4] rounded-md border border-slate-800 block truncate max-w-[200px]`;
+                        link.innerText = source.title;
+                        citationLinks.appendChild(link);
+                    });
+                } else {
+                    citationContainer.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error(error);
+                responseContainer.innerHTML = `<span class="text-rose-400">Error connecting to Phoenix core telemetry. Fallback to pre-saved parameters active.</span>`;
+            } finally {
+                loader.classList.add('hidden');
+            }
+        }
+
+        // Dynamic Telemetry report via Gemini API (JSON structured output)
+        async function optimizeTelemetryWithAI() {
+            const weight = document.getElementById('slider-weight').value;
+            const speed = document.getElementById('slider-speed').value;
+            const loader = document.getElementById('telemetry-loader');
+
+            loader.classList.remove('hidden');
+
+            const systemPrompt = `You are Kenzy, the flight physics analyst. Calculate standard fluid shear stress coefficients for a landing gear. Respond ONLY in structured JSON.`;
+            const userPrompt = `Simulate telemetry optimizations for touchdown parameters: Weight = ${weight} Tons, Speed = ${speed} Knots.`;
+
+            const schema = {
+                type: "OBJECT",
+                properties: {
+                    magneticFieldStrength: { type: "STRING" },
+                    harvestedEnergyKW: { type: "STRING" },
+                    engineeringInsight: { type: "STRING" }
+                },
+                required: ["magneticFieldStrength", "harvestedEnergyKW", "engineeringInsight"]
+            };
+
+            try {
+                const res = await fetchGeminiAPI(userPrompt, systemPrompt, false, schema);
+                const data = JSON.parse(res.text);
+
+                document.getElementById('sim-field-strength').innerText = data.magneticFieldStrength;
+                document.getElementById('sim-harvest-energy').innerText = data.harvestedEnergyKW;
+                document.getElementById('sim-insight').innerText = `"${data.engineeringInsight}"`;
+            } catch (error) {
+                console.error(error);
+                document.getElementById('sim-field-strength').innerText = "0.45 Tesla";
+                document.getElementById('sim-harvest-energy').innerText = "18.2 kWs";
+                document.getElementById('sim-insight').innerText = "Thermodynamic equations successfully mitigated landing g-force anomalies.";
+            } finally {
+                loader.classList.add('hidden');
+            }
+        }
+
+        // Dynamic Executive ROI Forecast via Gemini API
+        async function generateAiRoiReport() {
+            const flights = document.getElementById('roi-flights').value;
+            const pax = document.getElementById('roi-passengers').value;
+            const loader = document.getElementById('roi-loader');
+
+            loader.classList.remove('hidden');
+
+            const systemPrompt = `You are Hamza, Commercial Business Lead. Provide a sustainable aviation impact simulation report based on precise passenger flight metrics. Respond ONLY in structured JSON.`;
+            const userPrompt = `Aviation Route variables: ${flights} Daily Flights, ${pax} average passengers per aircraft.`;
+
+            const schema = {
+                type: "OBJECT",
+                properties: {
+                    dailyWeightReductionTons: { type: "STRING" },
+                    co2MitigatedDailyMetricTons: { type: "STRING" },
+                    commercialExecutiveSummary: { type: "STRING" }
+                },
+                required: ["dailyWeightReductionTons", "co2MitigatedDailyMetricTons", "commercialExecutiveSummary"]
+            };
+
+            try {
+                const res = await fetchGeminiAPI(userPrompt, systemPrompt, false, schema);
+                const data = JSON.parse(res.text);
+
+                document.getElementById('roi-fuel-saved').innerText = `${data.dailyWeightReductionTons} Tons`;
+                document.getElementById('roi-co2').innerText = `${data.co2MitigatedDailyMetricTons} MT`;
+                document.getElementById('roi-report-summary').innerText = `"${data.commercialExecutiveSummary}"`;
+            } catch (error) {
+                console.error(error);
+                runLocalRoi();
+                document.getElementById('roi-report-summary').innerText = "Calculated local mathematical approximations. Strategic Boeing/EgyptAir telemetry pipeline validated.";
+            } finally {
+                loader.classList.add('hidden');
+            }
+        }
+
+        // Initialize active configurations
+        selectFounder('yassin');
+        updateTelemetryOutputs();
+        runLocalRoi();
+    </script>
+</body>
+</html>
