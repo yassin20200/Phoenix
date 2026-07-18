@@ -41,6 +41,20 @@
             justify-content: space-between;
         }
 
+        /* */
+        /* GLOBAL LOGO WATERMARK */
+        .global-watermark {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            width: 80px;
+            height: 80px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.8;
+            filter: drop-shadow(0 4px 12px rgba(0, 245, 155, 0.2));
+        }
+
         /* AMBIENT LIGHTS */
         .ambient-glow {
             position: absolute;
@@ -91,6 +105,7 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
+        /* */
         /* DUAL LAYOUT */
         .slide-layout {
             display: grid;
@@ -182,6 +197,7 @@
             margin-bottom: 25px;
         }
 
+        /* */
         /* STORYTELLING CINEMATIC CANVAS */
         .cinematic-canvas {
             position: relative;
@@ -304,6 +320,7 @@
             color: #94a3b8;
         }
 
+        /* */
         /* SMARTPHONE INTERACTIVE MOCKUP */
         .phone-container {
             width: 250px;
@@ -456,6 +473,7 @@
             box-shadow: 0 0 10px var(--accent-blue);
         }
 
+        /* */
         /* FINANCIAL GRID */
         .fin-grid {
             display: grid;
@@ -593,6 +611,7 @@
         .ring-sam .ring-label { top: 10px; }
         .ring-som .ring-label { top: 38px; left: 0; width: 100%; }
 
+        /* */
         /* TEAM CARDS CONTAINER (COVER SLIDE) */
         .team-grid {
             display: grid;
@@ -622,8 +641,8 @@
         }
 
         .team-img-frame {
-            width: 150px;       /* Made bigger: 150px (formerly 110px) */
-            height: 190px;      /* Made bigger portrait rectangle: 190px (formerly 110px) */
+            width: 150px;       /* Custom size: 150px */
+            height: 190px;      /* Portrait rectangle: 190px */
             border-radius: 16px;
             overflow: hidden;
             border: 2px solid rgba(255, 255, 255, 0.1);
@@ -748,6 +767,7 @@
             line-height: 1.4;
         }
 
+        /* */
         /* PRESENTER NOTES PANEL */
         .notes-panel {
             position: fixed;
@@ -871,17 +891,26 @@
 </head>
 <body>
 
-    <div class="ambient-glow glow-top-right"></div>
-    <div class="ambient-glow glow-bottom-left"></div>
+    <!-- -->
+    <!-- GLOBAL LOGO WATERMARK -->
+    <div class="global-watermark">
+        <img src="logo2.png" alt="FLYNT Logo" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
 
     <div class="presentation-container">
 
+        <!-- -->
         <!-- SLIDE 1: COVER SLIDE WITH TEAM MEMBERS -->
         <div class="slide active" id="s1">
             <div class="slide-layout" style="grid-template-columns: 1fr;">
                 <div class="slide-info" style="align-items: center; text-align: center; justify-content: center; height: 100%; padding: 20px;">
                     <span class="speaker-tag" style="margin-bottom: 8px;">Yassin</span>
-                    <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 75px; font-weight: 800; letter-spacing: -3px; line-height: 1; color: #fff; margin-bottom: 5px;">FL<span>Y</span>NT</h1>
+                    
+                    <!-- Integrated central premium logo_2.png instead of SVG wordmark duplicate -->
+                    <div style="width: 260px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 4px 20px rgba(0, 245, 155, 0.25));">
+                        <img src="logo2.png" alt="FLYNT Logo" style="width: 100%; height: auto; object-fit: contain;">
+                    </div>
+
                     <p style="font-size: 18px; color: #ffffff; max-width: 650px; line-height: 1.4; margin-bottom: 15px;">Rewiring Aviation Loyalty through Behavioral Sustainability</p>
                     
                     <!-- Team Members Presentation Cards with bigger portrait frames -->
@@ -912,6 +941,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 2: CINEMATIC HOOK -->
         <div class="slide" id="s2">
             <div class="slide-layout" style="grid-template-columns: 1fr; position: relative;">
@@ -943,6 +973,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 3: HOW TO EARN -->
         <div class="slide" id="s3">
             <div class="slide-layout">
@@ -996,6 +1027,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 4: HOW TO SPEND -->
         <div class="slide" id="s4">
             <div class="slide-layout">
@@ -1056,6 +1088,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 5: VALUE PROPOSITION -->
         <div class="slide" id="s5">
             <div class="slide-layout">
@@ -1085,6 +1118,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 6: COMPETITION -->
         <div class="slide" id="s6">
             <div class="slide-layout">
@@ -1139,6 +1173,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 7: MASTER NUMBERS -->
         <div class="slide" id="s7">
             <div class="slide-layout">
@@ -1181,6 +1216,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 8: TAM SAM SOM -->
         <div class="slide" id="s8">
             <div class="slide-layout">
@@ -1210,6 +1246,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 9: THE STRATEGIC ASK -->
         <div class="slide" id="s9">
             <div class="slide-layout">
@@ -1239,6 +1276,7 @@
             </div>
         </div>
 
+        <!-- -->
         <!-- SLIDE 10: RESEARCH & RESOURCES -->
         <div class="slide" id="s10">
             <div class="slide-layout">
@@ -1288,6 +1326,7 @@
 
     </div>
 
+    <!-- -->
     <!-- BOTTOM CONTROL BAR -->
     <div class="bottom-navbar">
         <button class="nav-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i> Previous</button>
@@ -1343,7 +1382,7 @@
 
         const dots = document.querySelectorAll('.nav-dot');
 
-        // SLIDE NAVIGATION CONTROLS
+        //        // SLIDE NAVIGATION CONTROLS
         function updateSlideStates() {
             slides.forEach((slide, i) => {
                 slide.classList.remove('active');
@@ -1393,7 +1432,7 @@
             updateSlideStates();
         }
 
-        // SLIDE 2: AUTOMATED CASCADE ENVELOPE (2-Second Delay)
+        //        // SLIDE 2: AUTOMATED CASCADE ENVELOPE (2-Second Delay)
         function startSlide2Sequence() {
             // Reset state
             bubbleCanvas.classList.remove('imploded');
