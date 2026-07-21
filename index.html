@@ -6,20 +6,20 @@
     <title>FLYNT - Master Investor Presentation 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
-            --bg-dark: #030712;
-            --card-bg: rgba(10, 15, 30, 0.7);
-            --card-border: rgba(16, 185, 129, 0.15);
+            --bg-dark: #02050e;
+            --card-bg: rgba(8, 12, 24, 0.75);
+            --card-border: rgba(0, 245, 155, 0.15);
             --premium-mint: #00f59b;
             --premium-glow: rgba(0, 245, 155, 0.15);
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --accent-blue: #0ea5e9;
-            --dark-surface: #0b0f19;
+            --dark-surface: #060913;
         }
 
         * {
@@ -41,25 +41,43 @@
             justify-content: space-between;
         }
 
-        /* */
-        /* GLOBAL LOGO WATERMARK */
-        .global-watermark {
-            position: fixed;
+        /* WATERMARK BRANDING */
+        .slide-watermark {
+            position: absolute;
             top: 25px;
-            left: 25px;
-            width: 80px;
-            height: 80px;
-            z-index: 9999;
+            left: 35px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+            opacity: 0.9;
             pointer-events: none;
-            opacity: 0.8;
-            filter: drop-shadow(0 4px 12px rgba(0, 245, 155, 0.2));
+        }
+
+        .slide-watermark img {
+            height: 42px; /* Increased from 24px for high visibility on projectors */
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(0, 245, 155, 0.6));
+        }
+
+        .slide-watermark span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 24px; /* Scaled up from 16px to match the larger watermark logo */
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .slide-watermark span span {
+            color: var(--premium-mint);
         }
 
         /* AMBIENT LIGHTS */
         .ambient-glow {
             position: absolute;
-            width: 600px;
-            height: 600px;
+            width: 650px;
+            height: 650px;
             background: radial-gradient(circle, var(--premium-glow) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
@@ -68,7 +86,7 @@
         .glow-top-right { top: -150px; right: -150px; }
         .glow-bottom-left { bottom: -200px; left: -200px; }
 
-        /* MAIN CONTAINER */
+        /* PRESENTATION MAIN FRAME */
         .presentation-container {
             position: relative;
             flex-grow: 1;
@@ -101,12 +119,10 @@
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px) scale(0.98); }
+            from { opacity: 0; transform: translateY(15px) scale(0.99); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* */
-        /* DUAL LAYOUT */
         .slide-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -118,7 +134,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 40px 50px;
+            padding: 55px 50px 40px 50px;
             z-index: 10;
         }
 
@@ -128,29 +144,23 @@
             position: relative;
             overflow: hidden;
             border-left: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .slide-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* HEADER META */
         .slide-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
-            margin-bottom: 10px;
+            width: 100%;
+            margin-bottom: 5px;
         }
 
         .slide-num {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--premium-mint);
             background: rgba(0, 245, 155, 0.08);
@@ -159,27 +169,14 @@
             border: 1px solid rgba(0, 245, 155, 0.2);
         }
 
-        .speaker-tag {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--accent-blue);
-            background: rgba(14, 165, 233, 0.08);
-            padding: 4px 14px;
-            border-radius: 50px;
-            border: 1px solid rgba(14, 165, 233, 0.2);
-        }
-
         /* TYPOGRAPHY */
         .slide-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 40px;
+            font-size: 38px;
             font-weight: 700;
-            line-height: 1.15;
+            line-height: 1.2;
             color: var(--text-primary);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             letter-spacing: -1px;
         }
 
@@ -191,136 +188,147 @@
         }
 
         .slide-body-text {
-            font-size: 19px;
-            color: #ffffff;
+            font-size: 17px;
+            color: var(--text-secondary);
             line-height: 1.5;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        /* */
-        /* STORYTELLING CINEMATIC CANVAS */
-        .cinematic-canvas {
-            position: relative;
+        /* TEAM GRID FOR COVER SLIDE */
+        .team-display-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
             width: 100%;
-            height: 100%;
-            background: #02040a;
-            overflow: hidden;
+            max-width: 950px;
+            margin-top: 35px;
         }
 
-        .bubble {
-            position: absolute;
-            border-radius: 50%;
-            border: 3px solid var(--premium-mint);
-            box-shadow: 0 0 25px rgba(0, 245, 155, 0.4);
-            overflow: hidden;
+        .team-profile-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 20px;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), 
-                        opacity 0.8s ease, 
-                        top 1.2s cubic-bezier(0.25, 1, 0.5, 1), 
-                        left 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-            opacity: 0;
-            transform: scale(0);
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .bubble img {
+        .team-profile-card:hover {
+            border-color: var(--premium-mint);
+            transform: translateY(-8px);
+            background: rgba(0, 245, 155, 0.04);
+            box-shadow: 0 15px 35px rgba(0, 245, 155, 0.1);
+        }
+
+        .team-avatar-frame {
+            width: 180px;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #090e1a 0%, #172545 100%);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .team-avatar-frame img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
-            border-radius: 50%;
-            filter: grayscale(10%) brightness(95%);
-        }
-
-        /* Absolute Positions of the 6 Story Bubbles */
-        .bubble-wing    { width: 140px; height: 140px; top: 15%; left: 12%; }
-        .bubble-engine  { width: 155px; height: 155px; top: 15%; left: 74%; }
-        .bubble-carbon  { width: 130px; height: 130px; top: 45%; left: 6%; }
-        .bubble-weight  { width: 150px; height: 150px; top: 70%; left: 18%; }
-        .bubble-food    { width: 140px; height: 140px; top: 70%; left: 70%; }
-        .bubble-commute { width: 145px; height: 145px; top: 45%; left: 82%; }
-
-        .bubble.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Cinematic Merger Implosion State */
-        .cinematic-canvas.imploded .bubble {
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) scale(0) !important;
-            opacity: 0 !important;
-        }
-
-        .central-passenger-node {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            width: 220px;
-            height: 220px;
-            background: radial-gradient(circle, #022c22 0%, #064e3b 100%);
-            border: 4px solid var(--premium-mint);
-            box-shadow: 0 0 60px var(--premium-mint);
-            border-radius: 50%;
+            top: 0;
+            left: 0;
+            display: block;
+            z-index: 2;
+            transition: transform 0.5s ease;
+        }
+
+        .team-profile-card:hover .team-avatar-frame img {
+            transform: scale(1.05);
+        }
+
+        .team-member-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .team-member-role {
+            font-size: 11px;
+            color: var(--premium-mint);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        /* CINEMATIC STORYTELLING SCREEN */
+        .cinematic-story-wrap {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            z-index: 50;
-            transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            height: 100%;
+            width: 100%;
         }
 
-        .central-passenger-node.show {
-            transform: translate(-50%, -50%) scale(1);
+        .story-badge {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--accent-blue);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            margin-bottom: 25px;
         }
 
-        .central-passenger-node span {
+        .story-quote-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 850px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .story-quote-card i.quote-icon {
+            position: absolute;
+            font-size: 60px;
+            color: rgba(0, 245, 155, 0.05);
+            top: 20px;
+            left: 20px;
+        }
+
+        .story-headline {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 24px;
+            color: #fff;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .story-headline span {
+            color: var(--premium-mint);
             font-weight: 700;
-            color: #fff;
-            letter-spacing: 3px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
-        /* CONTROL BOX FOR SLIDE 2 */
-        .story-controls {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 100;
-        }
-
-        .story-btn {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff;
-            padding: 12px 32px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .story-btn:hover:not(:disabled) {
-            border-color: var(--premium-mint);
-            background: var(--premium-glow);
-            box-shadow: 0 0 20px var(--premium-glow);
-        }
-
-        .story-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            color: #94a3b8;
-        }
-
-        /* */
         /* SMARTPHONE INTERACTIVE MOCKUP */
         .phone-container {
             width: 250px;
@@ -381,13 +389,13 @@
 
         .phone-card h4 {
             color: #fff;
-            font-size: 12px;
+            font-size: 11px;
             margin-bottom: 3px;
         }
 
         .phone-card p {
             color: var(--text-secondary);
-            font-size: 10px;
+            font-size: 9px;
             line-height: 1.3;
             margin: 0;
         }
@@ -396,7 +404,7 @@
             color: var(--premium-mint);
             font-weight: 700;
             float: right;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .phone-footer-nav {
@@ -424,147 +432,180 @@
             margin-bottom: 2px;
         }
 
-        /* DUAL-TOKEN GRAPHIC */
-        .wallet-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .wallet-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .wallet-card i {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .wallet-card.green-token i { color: var(--premium-mint); }
-        .wallet-card.streak-token i { color: var(--accent-blue); }
-
-        .wallet-card h4 {
-            font-size: 15px;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .streak-track {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-        }
-
-        .streak-node {
-            width: 32%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+        /* PREMIUM VR VIEWPORT */
+        .vr-hologram-sim {
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle at center, rgba(10, 25, 47, 0.8) 0%, rgba(2, 4, 10, 0.95) 80%);
+            border: 2px solid var(--card-border);
+            border-radius: 50%;
             position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 245, 155, 0.15), inset 0 0 30px rgba(0, 245, 155, 0.1);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .streak-node.active {
-            background: var(--accent-blue);
-            box-shadow: 0 0 10px var(--accent-blue);
+        .vr-hologram-sim:hover {
+            border-color: var(--premium-mint);
+            box-shadow: 0 0 60px rgba(0, 245, 155, 0.3), inset 0 0 40px rgba(0, 245, 155, 0.2);
+            transform: scale(1.02);
         }
 
-        /* */
-        /* FINANCIAL GRID */
-        .fin-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+        .vr-hologram-sim.healthy {
+            border-color: #00f59b;
+            box-shadow: 0 0 60px rgba(0, 245, 155, 0.4), inset 0 0 40px rgba(0, 245, 155, 0.2);
+        }
+
+        .vr-hologram-sim.warning {
+            border-color: #ef4444;
+            box-shadow: 0 0 60px rgba(239, 68, 68, 0.4), inset 0 0 40px rgba(239, 68, 68, 0.2);
+        }
+
+        .vr-radar-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--premium-mint), transparent);
+            transform-origin: left center;
+            animation: radarRotation 4s linear infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes radarRotation {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vr-hud-screen {
+            position: absolute;
             width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 30px;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            z-index: 10;
+            pointer-events: none;
         }
 
-        .fin-item {
-            background: rgba(255, 255, 255, 0.02);
-            border-left: 4px solid var(--accent-blue);
-            padding: 10px 15px;
-            border-radius: 0 12px 12px 0;
+        .vr-hud-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
-        .fin-item.positive { border-left-color: var(--premium-mint); }
-        .fin-item.negative { border-left-color: #ef4444; }
-
-        .fin-item h4 {
-            font-size: 13.5px;
-            color: #ffffff;
-            font-weight: 600;
-            max-width: 78%;
-            line-height: 1.4;
-        }
-
-        .fin-item .value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: #fff;
-            white-space: nowrap;
-        }
-
-        .fin-item.positive .value { color: var(--premium-mint); }
-        .fin-item.negative .value { color: #f87171; }
-
-        .net-yield-box {
-            grid-column: span 2;
-            background: linear-gradient(135deg, rgba(6, 78, 59, 0.3) 0%, rgba(2, 44, 34, 0.3) 100%);
-            border: 1px solid var(--premium-mint);
-            border-radius: 16px;
-            padding: 12px;
+        .vr-hud-center {
             text-align: center;
+            margin: auto 0;
         }
 
-        .net-yield-box h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px;
-            color: var(--premium-mint);
-            font-weight: 800;
+        .vr-hud-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        /* COMPETITIVE MATRIX */
+        .vr-scrolling-terminal {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 9px;
+            color: rgba(0, 245, 155, 0.6);
+            height: 50px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column-reverse;
+            text-align: left;
+        }
+
+        /* COMPARISON MATRIX TABLE (Competitive Edge) */
         .matrix-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
-            margin-top: 10px;
-        }
-
-        .matrix-table th, .matrix-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 14px;
         }
 
         .matrix-table th {
-            color: #fff;
             font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 12px 16px;
+            border-bottom: 2px solid rgba(255,255,255,0.08);
+            text-align: left;
+        }
+
+        .matrix-table td {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+        }
+
+        .matrix-table tr.flynt-row {
+            background: rgba(0, 245, 155, 0.03);
+        }
+
+        .matrix-table tr.flynt-row td {
+            color: #fff;
             font-weight: 600;
+            border-bottom: 1px solid rgba(0, 245, 155, 0.2);
         }
 
-        .matrix-table td i {
-            font-size: 15px;
+        .matrix-table tr.flynt-row td:first-child {
+            border-left: 3px solid var(--premium-mint);
         }
 
-        .matrix-table td .fa-check { color: var(--premium-mint); }
-        .matrix-table td .fa-xmark { color: #ef4444; }
+        .matrix-status-icon {
+            font-size: 18px;
+        }
 
-        /* MARKET SIZE CIRCLES */
-        .market-circle-container {
-            position: relative;
-            width: 100%;
-            height: 380px;
+        .matrix-status-icon.yes {
+            color: var(--premium-mint);
+        }
+
+        .matrix-status-icon.no {
+            color: #ef4444;
+        }
+
+        /* MARKETING CHANNELS SCREEN */
+        .channel-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        .channel-card.active {
+            border-color: var(--premium-mint);
+            background: rgba(0, 245, 155, 0.05);
+            box-shadow: 0 10px 25px rgba(0, 245, 155, 0.08);
+        }
+
+        /* TAM SAM SOM & REVENUE CHANNELS */
+        .market-sizing-wrap {
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            width: 100%;
+            height: 380px;
         }
 
         .market-ring {
@@ -573,7 +614,7 @@
             align-items: center;
             justify-content: center;
             position: absolute;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .ring-tam {
@@ -595,7 +636,7 @@
             height: 110px;
             border: 2px solid var(--premium-mint);
             background: radial-gradient(circle, rgba(0, 245, 155, 0.1) 0%, transparent 80%);
-            box-shadow: 0 0 20px rgba(0, 245, 155, 0.2);
+            box-shadow: 0 0 25px rgba(0, 245, 155, 0.25);
         }
 
         .ring-label {
@@ -605,72 +646,256 @@
             color: #fff;
             text-align: center;
             position: absolute;
+            transition: color 0.3s ease;
         }
 
         .ring-tam .ring-label { top: 12px; }
         .ring-sam .ring-label { top: 10px; }
         .ring-som .ring-label { top: 38px; left: 0; width: 100%; }
 
-        /* */
-        /* TEAM CARDS CONTAINER (COVER SLIDE) */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            width: 90%;
-            margin-top: 20px;
+        .market-ring:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+        }
+        .ring-sam:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(14, 165, 233, 0.2);
+        }
+        .ring-som:hover {
+            border-color: #ffffff;
+            box-shadow: 0 0 35px var(--premium-mint);
         }
 
-        .team-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 16px;
+        /* FINANCIAL GROWING BARS */
+        .rev-projections-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            padding: 10px 20px;
+        }
+
+        .rev-bar-channel {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 100%;
+        }
+
+        .rev-bar-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .rev-bar-track {
+            height: 12px;
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .rev-bar-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--premium-mint), var(--accent-blue));
+            width: 0%;
+            transition: width 2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* PASSENGER JOURNEY DIAGRAM */
+        .journey-flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            margin: 30px auto 20px auto;
+        }
+
+        .journey-flow-line {
+            position: absolute;
+            top: 25px;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: rgba(255,255,255,0.1);
+            z-index: 1;
+            transition: all 1s ease;
+        }
+
+        .journey-flow-line-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--premium-mint), var(--accent-blue));
+            transition: width 2s ease;
+        }
+
+        .journey-node {
+            position: relative;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             align-items: center;
-            text-align: center;
-            transition: all 0.3s ease;
+            width: 16%;
+            cursor: pointer;
         }
 
-        .team-card:hover {
+        .journey-node-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #0b1120;
+            border: 2px solid rgba(255,255,255,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--text-secondary);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .journey-node:hover .journey-node-dot {
             border-color: var(--premium-mint);
-            transform: translateY(-8px);
-            background: rgba(16, 185, 129, 0.05);
-            box-shadow: 0 15px 30px rgba(0, 245, 155, 0.1);
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--premium-glow);
         }
 
-        .team-img-frame {
-            width: 150px;       /* Custom size: 150px */
-            height: 190px;      /* Portrait rectangle: 190px */
-            border-radius: 16px;
+        .journey-node.node-active .journey-node-dot {
+            border-color: var(--premium-mint);
+            background: radial-gradient(circle, #022c22 0%, #064e3b 100%);
+            color: #fff;
+            box-shadow: 0 0 20px var(--premium-mint);
+        }
+
+        .journey-node-title {
+            margin-top: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .journey-node-desc {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 4px;
+            line-height: 1.3;
+        }
+
+        /* VIDEO PLAYER CANVAS SLIDE */
+        .video-box-container {
+            width: 100%;
+            max-width: 820px;
+            height: 440px;
+            background: #090d16;
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            position: relative;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 12px;
-            background: #111827;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .team-img-frame img {
+        .video-player-frame {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            border: none;
+            display: block;
+            background: #000;
         }
 
-        .team-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 3px;
+        .video-paste-box {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(2, 4, 10, 0.9);
+            border: 1px solid var(--card-border);
+            padding: 10px;
+            border-radius: 12px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
         }
 
-        .team-role {
+        .video-input {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 12px;
+            padding: 0 10px;
+        }
+
+        .video-btn {
+            background: var(--premium-mint);
+            color: #02040a;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
             font-size: 11px;
-            color: var(--premium-mint);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .video-btn:hover {
+            box-shadow: 0 0 10px var(--premium-mint);
+        }
+
+        .video-player-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #0c1a30 0%, #030712 100%);
+            z-index: 5;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .fullscreen-trigger-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 11px;
             font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            z-index: 110;
+            transition: all 0.2s ease;
+        }
+
+        .fullscreen-trigger-btn:hover {
+            border-color: var(--premium-mint);
+            color: var(--premium-mint);
         }
 
         /* BOTTOM NAVBAR */
@@ -727,48 +952,7 @@
             border-radius: 10px;
         }
 
-        /* RESOURCES GRID */
-        .resources-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            width: 100%;
-        }
-
-        .resource-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 15px;
-            display: flex;
-            gap: 15px;
-            align-items: flex-start;
-        }
-
-        .resource-card i {
-            font-size: 20px;
-            color: var(--premium-mint);
-            background: rgba(0, 245, 155, 0.08);
-            padding: 10px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 245, 155, 0.15);
-        }
-
-        .resource-card h4 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-
-        .resource-card p {
-            font-size: 11px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-
-        /* */
-        /* PRESENTER NOTES PANEL */
+        /* PRESENTERS NOTES CONSOLE PANEL */
         .notes-panel {
             position: fixed;
             right: -450px;
@@ -814,7 +998,7 @@
             font-size: 14px;
             line-height: 1.7;
             color: #cbd5e1;
-            direction: rtl; /* Right to Left for Arabic Scripts */
+            direction: rtl; /* Arabic Right-To-Left formatting */
             text-align: right;
         }
 
@@ -858,6 +1042,7 @@
             content: '•';
             color: var(--premium-mint);
             font-weight: bold;
+            margin-left: 8px;
         }
 
         .close-notes-btn {
@@ -887,106 +1072,115 @@
             background: var(--premium-glow);
             box-shadow: 0 0 10px var(--premium-glow);
         }
+
+        /* STRATEGIC ASK CARD */
+        .ask-card-wrapper {
+            background: rgba(255,255,255,0.02);
+            border: 1.5px solid var(--premium-mint);
+            box-shadow: 0 0 30px var(--premium-glow);
+            padding: 20px;
+            border-radius: 18px;
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .ask-main-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            color: var(--premium-mint);
+            margin: 10px 0;
+        }
     </style>
 </head>
 <body>
 
-    <!-- -->
-    <!-- GLOBAL LOGO WATERMARK -->
-    <div class="global-watermark">
-        <img src="logo2.png" alt="FLYNT Logo" style="width: 100%; height: 100%; object-fit: contain;">
+    <!-- GLOBAL WATERMARK BRANDING ON ALL SLIDES -->
+    <div class="slide-watermark">
+        <img src="logo2.png" alt="FLYNT Logo">
+        <span>FL<span>Y</span>NT</span>
     </div>
+
+    <div class="ambient-glow glow-top-right"></div>
+    <div class="ambient-glow glow-bottom-left"></div>
 
     <div class="presentation-container">
 
-        <!-- -->
-        <!-- SLIDE 1: COVER SLIDE WITH TEAM MEMBERS -->
+        <!-- SLIDE 1: TEAM COVER SLIDE -->
         <div class="slide active" id="s1">
             <div class="slide-layout" style="grid-template-columns: 1fr;">
-                <div class="slide-info" style="align-items: center; text-align: center; justify-content: center; height: 100%; padding: 20px;">
-                    <span class="speaker-tag" style="margin-bottom: 8px;">Yassin</span>
-                    
-                    <!-- Integrated central premium logo_2.png instead of SVG wordmark duplicate -->
-                    <div style="width: 260px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 4px 20px rgba(0, 245, 155, 0.25));">
-                        <img src="logo2.png" alt="FLYNT Logo" style="width: 100%; height: auto; object-fit: contain;">
+                <div class="slide-info" style="align-items: center; text-align: center; justify-content: center; height: 100%; padding: 40px 20px;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 10px;">
+                        <!-- Scaled-up hero logo on title slide from 60px to 110px for massive structural impact -->
+                        <img src="logo2.png" alt="FLYNT Logo" style="height: 110px; width: auto; object-fit: contain; filter: drop-shadow(0 0 25px rgba(0, 245, 155, 0.55));">
+                        <h1 style="font-family: 'Space Grotesk', sans-serif; font-size: 84px; font-weight: 800; letter-spacing: -2.5px; line-height: 1; color: #fff;">FL<span>Y</span>NT</h1>
                     </div>
-
-                    <p style="font-size: 18px; color: #ffffff; max-width: 650px; line-height: 1.4; margin-bottom: 15px;">Rewiring Aviation Loyalty through Behavioral Sustainability</p>
+                    <p style="font-size: 19px; color: var(--text-secondary); max-width: 650px; line-height: 1.4; margin-bottom: 25px;">Rewiring Aviation Loyalty through Behavioral Sustainability</p>
                     
-                    <!-- Team Members Presentation Cards with bigger portrait frames -->
-                    <div class="team-grid">
-                        <div class="team-card">
-                            <div class="team-img-frame">
-                                <img src="yassin portofolio.jpeg" alt="Yassin" onerror="this.src='https://placehold.co/150x190/10151e/00f59b?text=Yassin'">
+                    <!-- High-resolution (blurry-proof) Large Team Display Grid -->
+                    <div class="team-display-grid">
+                        <div class="team-profile-card">
+                            <div class="team-avatar-frame">
+                                <img src="yassin portofolio.jpeg" alt="Yassien">
                             </div>
-                            <div class="team-name">Yassin</div>
-                            <div class="team-role">Strategy &amp; Pitch</div>
+                            <div class="team-member-name">Yassien</div>
+                            <div class="team-member-role">Strategy &amp; Storytelling</div>
                         </div>
-                        <div class="team-card">
-                            <div class="team-img-frame">
-                                <img src="kenzy portofolio.jpeg" alt="Kenzy" onerror="this.src='https://placehold.co/150x190/10151e/0ea5e9?text=Kenzy'">
+                        <div class="team-profile-card">
+                            <div class="team-avatar-frame">
+                                <img src="kenzy portofolio.jpeg" alt="Kenzy">
                             </div>
-                            <div class="team-name">Kenzy</div>
-                            <div class="team-role">Behavioral Architecture</div>
+                            <div class="team-member-name">Kenzy</div>
+                            <div class="team-member-role">Redemption &amp; VR Experience</div>
                         </div>
-                        <div class="team-card">
-                            <div class="team-img-frame">
-                                <img src="hamza portofolio.jpeg" alt="Hamza" onerror="this.src='https://placehold.co/150x190/10151e/00f59b?text=Hamza'">
+                        <div class="team-profile-card">
+                            <div class="team-avatar-frame">
+                                <img src="hamza portofolio.jpeg" alt="Hamza">
                             </div>
-                            <div class="team-name">Hamza</div>
-                            <div class="team-role">Financial Ledgers</div>
+                            <div class="team-member-name">Hamza</div>
+                            <div class="team-member-role">Financials &amp; Market Sizing</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 2: CINEMATIC HOOK -->
+        <!-- SLIDE 2: INTRODUCTORY STORYTELLING (Yassien) -->
         <div class="slide" id="s2">
-            <div class="slide-layout" style="grid-template-columns: 1fr; position: relative;">
-                <div class="slide-info" style="position: absolute; top: 0; left: 0; width: 100%; height: auto; padding: 40px 50px; flex-direction: row; justify-content: space-between; align-items: center; z-index: 10;">
-                    <div class="slide-header" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+            <div class="slide-layout" style="grid-template-columns: 1fr;">
+                <div class="slide-info" style="padding: 55px 50px 30px 50px;">
+                    <div class="slide-header">
                         <span class="slide-num">Slide 2 / 10</span>
-                        <span class="speaker-tag">Yassin</span>
                     </div>
-                </div>
-
-                <div class="slide-visual" style="border: none; background: transparent; width: 100%; height: 100%; padding: 0;">
-                    <div class="cinematic-canvas" id="bubble-canvas">
-                        <div class="bubble bubble-wing" id="b1"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=400&q=80" alt="Aerodynamic Wings"></div>
-                        <div class="bubble bubble-engine" id="b2"><img src="engine.png" alt="Jet Engine Turbine"></div>
-                        <div class="bubble bubble-carbon" id="b3"><img src="CO2.png" alt="Dense carbon chimney emissions pollution"></div>
-                        <div class="bubble bubble-weight" id="b4"><img src="Lugage.png" alt="Luggage checked and weighed on conveyor scale"></div>
-                        <div class="bubble bubble-food" id="b5"><img src="food waste.png" alt="Quarantine bio waste high temperature incineration furnace flames"></div>
-                        <div class="bubble bubble-commute" id="b6"><img src="Car.png" alt="Electric vehicle driving highway"></div>
-
-                        <div class="central-passenger-node" id="central-p-node">
-                            <span>PASSENGER</span>
+                    <div class="cinematic-story-wrap">
+                        <span class="story-badge">The Spark</span>
+                        <div class="story-quote-card">
+                            <i class="fa-solid fa-quote-left quote-icon"></i>
+                            <p class="story-headline">
+                                "We realized this while talking to travelers. One passenger took public transportation to the airport, traveled with a lighter suitcase, and skipped a meal she didn’t need. She did everything right, yet <span>no one recognized her effort.</span>"
+                            </p>
                         </div>
+                        <p style="font-size: 17px; color: var(--text-secondary); max-width: 600px; line-height: 1.5;">
+                            That conversation inspired one simple question: <strong style="color: var(--premium-mint);">What if every sustainable action could be rewarded?</strong>
+                        </p>
                     </div>
-                </div>
-
-                <div class="story-controls">
-                    <button class="story-btn" id="next-story-step" disabled>Analyzing Core Envelopes...</button>
                 </div>
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 3: HOW TO EARN -->
+        <!-- SLIDE 3: HOW TO EARN POINTS (Yassien) -->
         <div class="slide" id="s3">
             <div class="slide-layout">
                 <div class="slide-info">
                     <div class="slide-header">
                         <span class="slide-num">Slide 3 / 10</span>
-                        <span class="speaker-tag">Yassin</span>
                     </div>
                     <div>
-                        <h2 class="slide-title">Interactive: How to <span>Earn</span></h2>
-                        <p class="slide-body-text">We gamify sustainable behaviors. Passengers earn Green Points and secure progress on their Streak tracks through three key actions before flight departure.</p>
+                        <h2 class="slide-title">Earning <span>Green Points</span></h2>
+                        <p class="slide-body-text">We make sustainable travel behaviors active and lucrative. Passengers verify their eco-friendly habits before flight departure to claim rewards instantly.</p>
                         <div style="background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 15px; border-radius: 12px; font-size: 13px; color: var(--premium-mint);">
-                            <i class="fa-solid fa-circle-info" style="margin-right: 5px;"></i> Click the options inside the screen mockup to experience the user interactions.
+                            <i class="fa-solid fa-circle-info" style="margin-right: 5px;"></i> Click options on the dashboard screen mockup to test the interactive user onboarding.
                         </div>
                     </div>
                 </div>
@@ -994,32 +1188,32 @@
                     <div class="phone-container">
                         <div class="phone-screen">
                             <div class="phone-header">
-                                <span>12:00 PM</span>
-                                <span>FLYNT SDK</span>
+                                <span>03:49 AM</span>
+                                <span>FLYNT Earn</span>
                             </div>
-                            <div style="text-align: center; margin-bottom: 15px;">
+                            <div style="text-align: center; margin-bottom: 12px;">
                                 <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Earn Points Dashboard</span>
                             </div>
                             <div class="phone-body">
-                                <div class="phone-card" id="earn-transit-card">
+                                <div class="phone-card selected" id="earn-transit">
                                     <span class="phone-points-badge">+1,500</span>
                                     <h4>Eco-Transit Commute</h4>
-                                    <p>Book an EV/Green taxi to the airport terminal directly via integration.</p>
+                                    <p>NFC check-in verified via airport electric metro or EV cab ride.</p>
                                 </div>
-                                <div class="phone-card" id="earn-weight-card">
-                                    <span class="phone-points-badge">+1,500</span>
-                                    <h4>Light Luggage</h4>
-                                    <p>Confirm check-in under limit (22 kg target) to drop flight takeoff weight.</p>
+                                <div class="phone-card" id="earn-weight">
+                                    <span class="phone-points-badge">+1,200</span>
+                                    <h4>Light Luggage Bonus</h4>
+                                    <p>Luggage weight scale confirmed below sector limits.</p>
                                 </div>
-                                <div class="phone-card" id="earn-meal-card">
-                                    <span class="phone-points-badge">+1,500</span>
-                                    <h4>Meal Opt-Out</h4>
-                                    <p>Decline meal 48h early to avoid biosecurity quarantine incineration.</p>
+                                <div class="phone-card" id="earn-meal">
+                                    <span class="phone-points-badge">+1,000</span>
+                                    <h4>Pre-Flight Meal Opt-Out</h4>
+                                    <p>Meal declined 48h early to avoid biosecurity quarantine burn.</p>
                                 </div>
                             </div>
                             <div class="phone-footer-nav">
                                 <div class="phone-nav-item active"><i class="fa-solid fa-leaf"></i>Earn</div>
-                                <div class="phone-nav-item"><i class="fa-solid fa-wallet"></i>Wallet</div>
+                                <div class="phone-nav-item"><i class="fa-solid fa-wallet"></i>Market</div>
                             </div>
                         </div>
                     </div>
@@ -1027,29 +1221,20 @@
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 4: HOW TO SPEND -->
+        <!-- SLIDE 4: HOW TO SPEND POINTS (Kenzy) -->
         <div class="slide" id="s4">
             <div class="slide-layout">
                 <div class="slide-info">
                     <div class="slide-header">
                         <span class="slide-num">Slide 4 / 10</span>
-                        <span class="speaker-tag">Kenzy</span>
                     </div>
                     <div>
-                        <h2 class="slide-title">Interactive: How to <span>Spend</span></h2>
-                        <p class="slide-body-text">Rewards are split into two parallel tracks to preserve long-term loyalty without inflating flight cost overheads.</p>
-                        <div class="wallet-container">
-                            <div class="wallet-card green-token">
-                                <i class="fa-solid fa-leaf"></i>
-                                <h4>Green Points</h4>
-                                <p style="font-size: 11px;">Spend at the Sponsor Marketplace for premium retail &amp; brand discount codes.</p>
-                            </div>
-                            <div class="wallet-card streak-token">
-                                <i class="fa-solid fa-fire"></i>
-                                <h4>Streak Points</h4>
-                                <p style="font-size: 11px;">Secure exactly 3 consecutive flights to claim an available Business Upgrade.</p>
-                            </div>
+                        <h2 class="slide-title">Integrated <span>Marketplace</span></h2>
+                        <p class="slide-body-text">Passengers spend points in our integrated Sponsor Marketplace for real lifestyle rewards and high-value upgrades. Brand sponsors fund the points, presenting <strong>zero cost</strong> to the airline carrier.</p>
+                        <div class="phone-card selected" style="border-color: var(--accent-blue); background: rgba(14, 165, 233, 0.05); margin-bottom: 10px;">
+                            <span class="phone-points-badge" style="color: var(--accent-blue);">Redeem</span>
+                            <h4 style="font-size: 14px;"><i class="fa-solid fa-plane-up"></i> Premium Cabin Upgrades</h4>
+                            <p style="font-size: 11px;">Unlocking space-available business seats at gate closing, utilizing inventory that would otherwise fly empty.</p>
                         </div>
                     </div>
                 </div>
@@ -1057,30 +1242,32 @@
                     <div class="phone-container">
                         <div class="phone-screen">
                             <div class="phone-header">
-                                <span>12:00 PM</span>
-                                <span>FLYNT Wallet</span>
+                                <span>03:49 AM</span>
+                                <span>Market</span>
                             </div>
-                            <div style="text-align: center; margin-bottom: 10px;">
-                                <span style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Sponsor Wallet &amp; Streak</span>
+                            <div style="text-align: center; margin-bottom: 12px;">
+                                <span style="font-size: 10px; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1px;">Redeem Marketplace</span>
                             </div>
                             <div class="phone-body">
-                                <div class="phone-card">
-                                    <h4>Bose QuietComfort Upgrade</h4>
-                                    <p>Use 4,500 Green Points for EGP 1,000 discount code.</p>
+                                <div class="phone-card selected" id="spend-telecom" style="border-color: var(--accent-blue);">
+                                    <span class="phone-points-badge" style="color: var(--accent-blue);">-3,000</span>
+                                    <h4>Orange Data Roaming</h4>
+                                    <p>Claim 10GB free regional airport roaming bundle.</p>
                                 </div>
-                                <div class="phone-card" style="border-color: var(--accent-blue); background: rgba(14, 165, 233, 0.05);">
-                                    <h4>3-Trip Streak: <span style="color: var(--accent-blue);">2 / 3 Complete</span></h4>
-                                    <div class="streak-track">
-                                        <div class="streak-node active"></div>
-                                        <div class="streak-node active"></div>
-                                        <div class="streak-node"></div>
-                                    </div>
-                                    <p style="margin-top: 8px; font-size: 9px; color: #94a3b8;"><i class="fa-solid fa-triangle-exclamation"></i> Warning: Booking a competitor flight resets Streak to 0/3!</p>
+                                <div class="phone-card" id="spend-bose">
+                                    <span class="phone-points-badge" style="color: var(--accent-blue);">-4,500</span>
+                                    <h4>Bose Sound Deal</h4>
+                                    <p>Save 1,500 EGP on high-end audio retail gear.</p>
+                                </div>
+                                <div class="phone-card" id="spend-upgrade">
+                                    <span class="phone-points-badge" style="color: var(--accent-blue);">-15,000</span>
+                                    <h4>Business Class Berth</h4>
+                                    <p>Redeem space-available premium upgrades before boarding.</p>
                                 </div>
                             </div>
                             <div class="phone-footer-nav">
                                 <div class="phone-nav-item"><i class="fa-solid fa-leaf"></i>Earn</div>
-                                <div class="phone-nav-item active"><i class="fa-solid fa-wallet"></i>Wallet</div>
+                                <div class="phone-nav-item active"><i class="fa-solid fa-wallet"></i>Market</div>
                             </div>
                         </div>
                     </div>
@@ -1088,156 +1275,217 @@
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 5: VALUE PROPOSITION -->
+        <!-- SLIDE 5: ADVANCED HOVER VR EXPERIENCE SIMULATION (Kenzy) -->
         <div class="slide" id="s5">
             <div class="slide-layout">
-                <div class="slide-info">
+                <div class="slide-info" style="padding-right: 40px;">
                     <div class="slide-header">
                         <span class="slide-num">Slide 5 / 10</span>
-                        <span class="speaker-tag">Kenzy</span>
                     </div>
                     <div>
-                        <h2 class="slide-title">Value Proposition &amp; <span>Channels</span></h2>
-                        <p class="slide-body-text">We translate complex sustainability guidelines into active commercial resources. FLYNT bridges the gap between environmental audits and customer booking loyalty.</p>
-                        <div style="display: flex; flex-direction: column; gap: 15px;">
-                            <div style="border-left: 3px solid var(--premium-mint); padding-left: 15px;">
-                                <h4 style="font-size: 14px; color: #fff; font-weight: 700;">Value Proposition</h4>
-                                <p style="font-size: 13px; margin: 0; color: #cbd5e1;">Converting corporate ESG compliance from an expense into a profitable, high-yield loyalty engine.</p>
-                            </div>
-                            <div style="border-left: 3px solid var(--accent-blue); padding-left: 15px;">
-                                <h4 style="font-size: 14px; color: #fff; font-weight: 700;">Distribution Channels</h4>
-                                <p style="font-size: 13px; margin: 0; color: #cbd5e1;">Push notifications, mobile check-in checkout prompts, and direct enterprise API integrations.</p>
-                            </div>
+                        <h2 class="slide-title">Interactive <span>VR Corner</span></h2>
+                        <p class="slide-body-text">Architectural Floor Plan of the Smart Sponsor Lounge. Illustrating the spatial layout of premium seating and the strategically positioned VR Corner Station.</p>
+                        
+                        <!-- Interactive Focus Controls -->
+                        <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                            <button id="btn-show-map" class="video-btn" style="background: rgba(14, 165, 233, 0.2); color: var(--accent-blue); border: 1px solid var(--accent-blue); padding: 8px 16px; border-radius: 10px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-map"></i> Full Lounge Map
+                            </button>
+                            <button id="btn-focus-vr" class="video-btn" style="background: var(--premium-mint); color: #02040a; padding: 8px 16px; border-radius: 10px; font-weight: 700; display: flex; align-items: center; gap: 6px;">
+                                <i class="fa-solid fa-crosshairs"></i> Focus Camera on VR
+                            </button>
+                        </div>
+
+                        <div style="background: rgba(14, 165, 233, 0.05); border: 1px dashed rgba(14, 165, 233, 0.3); padding: 15px; border-radius: 12px;">
+                            <h4 style="font-size: 13px; color: var(--accent-blue); font-family: 'Space Grotesk', sans-serif; margin-bottom: 4px;">
+                                <i class="fa-solid fa-circle-nodes" style="margin-right: 5px;"></i> Geospatial Interface Controls:
+                            </h4>
+                            <p style="font-size: 12px; color: #cbd5e1; margin: 0;">
+                                Click the <strong>Focus Camera</strong> button to transition viewports and zoom directly into the active VR capsule on the flank, or press <strong>Full Lounge Map</strong> to return to the bird's-eye architectural plan.
+                            </p>
                         </div>
                     </div>
                 </div>
                 <div class="slide-visual">
-                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80" alt="High-tech corporate skyscraper facade">
+                    <!-- ADVANCED HOLOGRAPHIC VR & LOUNGE SIMULATOR -->
+                    <div class="vr-hologram-sim warning" id="vr-radar-simulation" style="border-radius: 24px; width: 440px; height: 440px; cursor: pointer;">
+                        <!-- Canvas for blueprint map and detailed closeups -->
+                        <canvas id="vr-canvas" class="absolute inset-0 w-full h-full z-0 pointer-events-none" style="display: block; width: 100%; height: 100%;"></canvas>
+                        
+                        <!-- HUD Interface Overlay -->
+                        <div class="vr-hud-screen">
+                            <div class="vr-hud-header">
+                                <span id="vr-hud-title-txt">CAMERA: LOUNGE BLUEPRINT</span>
+                                <span id="vr-status-txt" style="color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);">SYS STATUS: STDBY</span>
+                            </div>
+                            
+                            <div class="vr-hud-center">
+                                <div style="font-size: 32px; font-weight: 800; line-height: 1; color: #fff;" id="vr-temp-val">LOUNGE MAP</div>
+                                <div style="font-size: 11px; color: var(--accent-blue); letter-spacing: 2px; margin-top: 5px;" id="vr-impact-val">CLICK VR POD TO ZOOM IN</div>
+                            </div>
+                            
+                            <div>
+                                <div class="vr-scrolling-terminal" id="vr-log-screen">
+                                    <div>[SYS] Waiting for camera target selection...</div>
+                                </div>
+                                <div class="vr-hud-footer" style="margin-top: 8px;">
+                                    <span>STATION: ORANGE LOUNGE</span>
+                                    <span style="color: var(--premium-mint); animation: pulse 1s infinite alternate;" id="vr-prompt-text">SELECT VR CORNER</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 6: COMPETITION -->
+        <!-- SLIDE 6: COMPETITIVE EDGE & REWARDING MATRIX -->
         <div class="slide" id="s6">
-            <div class="slide-layout">
-                <div class="slide-info">
-                    <div class="slide-header">
+            <div class="slide-layout" style="grid-template-columns: 1fr;">
+                <div class="slide-info" style="padding: 55px 50px 30px 50px; justify-content: start; gap: 20px;">
+                    <div class="slide-header" style="position: absolute; top: 55px; right: 50px;">
                         <span class="slide-num">Slide 6 / 10</span>
-                        <span class="speaker-tag">Kenzy</span>
                     </div>
                     <div>
-                        <h2 class="slide-title">Competitive <span>Matrix</span> &amp; Edge</h2>
-                        <p class="slide-body-text">Traditional programs rely on transactional point balances or donation tools that fail to lock-in behavioral habits. FLYNT gamifies the journey at zero marginal cost.</p>
-                    </div>
-                </div>
-                <div class="slide-visual" style="padding: 40px; display: flex; flex-direction: column; justify-content: center;">
-                    <table class="matrix-table">
-                        <thead>
-                            <tr>
-                                <th>Capability</th>
-                                <th>Miles</th>
-                                <th>Offsets</th>
-                                <th style="color: var(--premium-mint);">FLYNT</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>No Passenger Out-of-Pocket Cost</td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-check"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Instant Operational Cost-Cuts</td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-check"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Active Customer Lock-in (Streak Reset)</td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-check"></i></td>
-                            </tr>
-                            <tr>
-                                <td>Sponsor-Funded Rewards Ecosystem</td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-xmark"></i></td>
-                                <td><i class="fa-solid fa-check"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- -->
-        <!-- SLIDE 7: MASTER NUMBERS -->
-        <div class="slide" id="s7">
-            <div class="slide-layout">
-                <div class="slide-info" style="grid-column: span 2; padding: 30px 50px;">
-                    <div class="slide-header">
-                        <span class="slide-num">Slide 7 / 10</span>
-                        <span class="speaker-tag">Hamza</span>
-                    </div>
-                    <div>
-                        <h2 class="slide-title" style="margin-bottom: 8px;">The 2026 <span>Financial &amp; Operational</span> Master Ledger</h2>
+                        <h2 class="slide-title">Competitive <span>Advantage</span></h2>
+                        <p class="slide-body-text" style="margin-bottom: 10px;">Why FLYNT dominates traditional rewarding frameworks. We align zero-capital waste prevention with premium lifestyle integration.</p>
                     </div>
                     
-                    <div class="fin-grid">
-                        <div class="fin-item positive">
-                            <h4>Ground Commute: EGP 400 fare (15% converted) @ 10% affiliate commission</h4>
-                            <span class="value">+ EGP 60,000,000</span>
+                    <div style="background: rgba(255,255,255,0.01); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; overflow: hidden; width: 100%;">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature Alignment</th>
+                                    <th>FLYNT Platform</th>
+                                    <th>Traditional Loyalty (FFP)</th>
+                                    <th>Carbon Offsetting Apps</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="flynt-row">
+                                    <td>Capital Cost to Airline</td>
+                                    <td><i class="fa-solid fa-circle-check matrix-status-icon yes"></i> Zero (Sponsor Funded)</td>
+                                    <td><i class="fa-solid fa-circle-xmark matrix-status-icon no"></i> High (Direct Liability)</td>
+                                    <td><i class="fa-solid fa-circle-xmark matrix-status-icon no"></i> High cost / direct margins</td>
+                                </tr>
+                                <tr>
+                                    <td>Behavioral Incentives</td>
+                                    <td><i class="fa-solid fa-circle-check matrix-status-icon yes" style="color: var(--premium-mint);"></i> Active Gamification (Positive)</td>
+                                    <td><i class="fa-solid fa-circle-xmark matrix-status-icon no" style="color: #ef4444;"></i> Spend-only driven</td>
+                                    <td><i class="fa-solid fa-circle-xmark matrix-status-icon no" style="color: #ef4444;"></i> Punitive carbon taxation</td>
+                                </tr>
+                                <tr class="flynt-row">
+                                    <td>Physical Asset Dependency</td>
+                                    <td><i class="fa-solid fa-circle-check matrix-status-icon yes"></i> Asset-Light Software Integration</td>
+                                    <td><i class="fa-solid fa-circle-check matrix-status-icon yes"></i> Software</td>
+                                    <td><i class="fa-solid fa-circle-xmark matrix-status-icon no"></i> High physical offsets focus</td>
+                                </tr>
+                                <tr>
+                                    <td>In-Airport Engagement</td>
+                                    <td><i class="fa-solid fa-circle-check matrix-status-icon yes" style="color: var(--premium-mint);"></i> VR Pods &amp; Direct Lounges</td>
+                                    <td><i class="fa-solid fa-circle-xmark matrix-status-icon no" style="color: #ef4444;"></i> No sensory interaction</td>
+                                    <td><i class="fa-solid fa-circle-xmark matrix-status-icon no" style="color: #ef4444;"></i> Out-of-journey apps</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: CHANNELS & AUDIENCE ENGAGEMENT -->
+        <div class="slide" id="s7">
+            <div class="slide-layout" style="grid-template-columns: 1fr;">
+                <div class="slide-info" style="padding: 55px 50px 30px 50px; justify-content: start; gap: 15px;">
+                    <div class="slide-header" style="position: absolute; top: 55px; right: 50px;">
+                        <span class="slide-num">Slide 7 / 10</span>
+                    </div>
+                    <div>
+                        <h2 class="slide-title">Ecosystem <span>Marketing Channels</span></h2>
+                        <p class="slide-body-text" style="margin-bottom: 20px;">Deploying a frictionless, localized B2B2C distribution network targeting high-value premium flyers directly in lounges and check-in halls.</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 100%;">
+                        <div class="channel-card active">
+                            <div style="font-size: 24px; color: var(--premium-mint); margin-bottom: 10px;"><i class="fa-solid fa-cube"></i></div>
+                            <h4 style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 5px;">In-App SDK</h4>
+                            <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">Directly nested within regional airline flag carrier apps. Zero friction on-boarding.</p>
                         </div>
-                        <div class="fin-item positive">
-                            <h4>Weight Physics: Fuel saved at EGP 46/kg (5M passengers dropping 1 kg)</h4>
-                            <span class="value">+ EGP 32,200,000</span>
+                        <div class="channel-card">
+                            <div style="font-size: 24px; color: var(--accent-blue); margin-bottom: 10px;"><i class="fa-solid fa-vr-cardboard"></i></div>
+                            <h4 style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 5px;">Lounge VR Pods</h4>
+                            <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">Immersive physical activation capturing immediate focus in sponsor hubs.</p>
                         </div>
-                        <div class="fin-item negative">
-                            <h4>Baggage Overweight Fee Cannibalization: Reduction in penalty yields</h4>
-                            <span class="value">- EGP 20,000,000</span>
+                        <div class="channel-card">
+                            <div style="font-size: 24px; color: var(--accent-blue); margin-bottom: 10px;"><i class="fa-solid fa-bell"></i></div>
+                            <h4 style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 5px;">Geo-Triggers</h4>
+                            <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">Push notification triggers: "Arrived at Terminal 3 via Metro? Earn 1.5K Pts!"</p>
                         </div>
-                        <div class="fin-item positive">
-                            <h4>Meal Opt-Out Savings: Avoided sourcing (EGP 240) + incineration (EGP 50)</h4>
-                            <span class="value">+ EGP 435,000,000</span>
-                        </div>
-                        <div class="fin-item positive">
-                            <h4>B2B Sponsorships &amp; Marketplace Commissions: 4 core corporate ESG partners</h4>
-                            <span class="value">+ EGP 260,000,000</span>
-                        </div>
-                        <div class="net-yield-box">
-                            <span style="font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: #ffffff; display: block; margin-bottom: 4px;">Consolidated Bottom-Line Impact (10M Pax Hub)</span>
-                            <h3>+ EGP 755,000,000 / $15.7 Million Net Annual Profit</h3>
+                        <div class="channel-card">
+                            <div style="font-size: 24px; color: var(--accent-blue); margin-bottom: 10px;"><i class="fa-solid fa-tags"></i></div>
+                            <h4 style="color: #fff; font-size: 15px; font-weight: 700; margin-bottom: 5px;">Check-In Counters</h4>
+                            <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.4;">Digital weight scale feedback interfaces at premium boarding areas.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 8: TAM SAM SOM -->
+        <!-- SLIDE 8: REVENUES & TAM SAM SOM MARKET (Hamza) -->
         <div class="slide" id="s8">
             <div class="slide-layout">
                 <div class="slide-info">
                     <div class="slide-header">
                         <span class="slide-num">Slide 8 / 10</span>
-                        <span class="speaker-tag">Yassin</span>
                     </div>
                     <div>
-                        <h2 class="slide-title">TAM, SAM, <span>SOM</span> (2026)</h2>
-                        <p class="slide-body-text">We are addressing a massive, fast-growing global marketplace by capturing early transit and environmental trends inside regional airline networks.</p>
+                        <h2 class="slide-title">Market Size &amp; <span>Revenues</span></h2>
+                        <p class="slide-body-text">We translate behavior into absolute financial projections, targeting regional ecosystems at highly scaling margins.</p>
+                        
+                        <!-- Financial Projections Visual -->
+                        <div class="rev-projections-box">
+                            <div class="rev-bar-channel">
+                                <div class="rev-bar-header">
+                                    <span>Meal Opt-Out Procurement Savings</span>
+                                    <span style="color: var(--premium-mint);">+ $12.8M</span>
+                                </div>
+                                <div class="rev-bar-track">
+                                    <div class="rev-bar-fill" id="bar-rev-1"></div>
+                                </div>
+                            </div>
+                            <div class="rev-bar-channel">
+                                <div class="rev-bar-header">
+                                    <span>Sponsor Base Contract Yields</span>
+                                    <span style="color: var(--premium-mint);">+ $12.5M</span>
+                                </div>
+                                <div class="rev-bar-track">
+                                    <div class="rev-bar-fill" id="bar-rev-2"></div>
+                                </div>
+                            </div>
+                            <div class="rev-bar-channel">
+                                <div class="rev-bar-header">
+                                    <span>Ground Commute Commissions</span>
+                                    <span style="color: var(--premium-mint);">+ $6.75M</span>
+                                </div>
+                                <div class="rev-bar-track">
+                                    <div class="rev-bar-fill" id="bar-rev-3"></div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 10px;">
+                                <span style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); display: block; margin-bottom: 4px;">Total Projected Annual Revenue</span>
+                                <h3 style="font-size: 28px; color: var(--premium-mint); font-family: 'Space Grotesk', sans-serif; font-weight: 800;">755 Million EGP / $15.7M USD</h3>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="slide-visual">
-                    <div class="market-circle-container">
+                    <div class="market-sizing-wrap">
                         <div class="market-ring ring-tam">
                             <div class="ring-label">TAM: Global Ancillary Market<br><strong style="font-size: 14px;">$157 Billion</strong></div>
                             <div class="market-ring ring-sam">
-                                <div class="ring-label">SAM: MENA Eco-Active Premium<br><strong style="font-size: 13px; color: var(--accent-blue);">$12 Billion</strong></div>
+                                <div class="ring-label">SAM: Eco-Active segment<br><strong style="font-size: 13px; color: var(--accent-blue);">$12 Billion</strong></div>
                                 <div class="market-ring ring-som">
-                                    <div class="ring-label">SOM: Regional Hubs<br><strong style="font-size: 12px; color: var(--premium-mint);">$150 Million</strong></div>
+                                    <div class="ring-label">SOM: Region routes<br><strong style="font-size: 12px; color: var(--premium-mint);">$150 Million</strong></div>
                                 </div>
                             </div>
                         </div>
@@ -1246,79 +1494,88 @@
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 9: THE STRATEGIC ASK -->
+        <!-- SLIDE 9: USER JOURNEY DIAGRAM & STRATEGIC ASK (Yassien) -->
         <div class="slide" id="s9">
-            <div class="slide-layout">
-                <div class="slide-info" style="grid-column: span 2; padding: 40px 60px; align-items: center; text-align: center; justify-content: center; height: 100%;">
-                    <span class="speaker-tag" style="margin-bottom: 15px;">Yassin</span>
-                    <h2 class="slide-title">The Strategic <span>Ask</span> &amp; Partnership</h2>
-                    <p class="slide-body-text" style="max-width: 750px; font-size: 20px; color: #ffffff;">To turn this mathematically verified research model into the dominant behavioral aviation network of the Middle East, we are requesting structural assets rather than simple transactional venture capital.</p>
+            <div class="slide-layout" style="grid-template-columns: 1fr;">
+                <div class="slide-info" style="align-items: center; text-align: center; justify-content: space-between; height: 100%; padding: 50px 50px 30px 50px;">
+                    <div class="slide-header" style="position: absolute; top: 50px; right: 50px;">
+                        <span class="slide-num">Slide 9 / 10</span>
+                    </div>
                     
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; margin-top: 15px;">
-                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 20px; border-radius: 16px;">
-                            <i class="fa-solid fa-wallet" style="font-size: 24px; color: var(--premium-mint); margin-bottom: 10px;"></i>
-                            <h4 style="font-family: 'Space Grotesk'; font-size: 15px; margin-bottom: 5px;">$250,000 Capital</h4>
-                            <p style="font-size: 11px; color: var(--text-secondary);">Fund core SDK cybersecurity audits and scale secure enterprise cloud backend infrastructures.</p>
+                    <div style="width: 100%;">
+                        <h2 class="slide-title" style="margin-bottom: 5px;">The Passenger <span>Ecosystem</span> Pathway</h2>
+                        <p style="font-size: 15px; color: var(--text-secondary);">Interactive Flowchart: From downloading the sdk app utility to unlocking retail brand vouchers.</p>
+                        
+                        <!-- Interactive User Journey Nodes -->
+                        <div class="journey-flow-diagram">
+                            <div class="journey-flow-line">
+                                <div class="journey-flow-line-fill" id="journey-flow-fill"></div>
+                            </div>
+                            <div class="journey-node node-active" data-index="1">
+                                <div class="journey-node-dot"><i class="fa-solid fa-download"></i></div>
+                                <div class="journey-node-title">1. Download</div>
+                                <div class="journey-node-desc">App setup</div>
+                            </div>
+                            <div class="journey-node" data-index="2">
+                                <div class="journey-node-dot"><i class="fa-solid fa-leaf"></i></div>
+                                <div class="journey-node-title">2. Green Action</div>
+                                <div class="journey-node-desc">Pack &amp; Transit</div>
+                            </div>
+                            <div class="journey-node" data-index="3">
+                                <div class="journey-node-dot"><i class="fa-solid fa-wallet"></i></div>
+                                <div class="journey-node-title">3. Earn Points</div>
+                                <div class="journey-node-desc">Instant check</div>
+                            </div>
+                            <div class="journey-node" data-index="4">
+                                <div class="journey-node-dot"><i class="fa-solid fa-vr-cardboard"></i></div>
+                                <div class="journey-node-title">4. VR Booth</div>
+                                <div class="journey-node-desc">Visual impact</div>
+                            </div>
+                            <div class="journey-node" data-index="5">
+                                <div class="journey-node-dot"><i class="fa-solid fa-gift"></i></div>
+                                <div class="journey-node-title">5. Redeem</div>
+                                <div class="journey-node-desc">Spend discounts</div>
+                            </div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--accent-blue); padding: 20px; border-radius: 16px;">
-                            <i class="fa-solid fa-network-wired" style="font-size: 24px; color: var(--accent-blue); margin-bottom: 10px;"></i>
-                            <h4 style="font-family: 'Space Grotesk'; font-size: 15px; margin-bottom: 5px;">Strategic Introductions</h4>
-                            <p style="font-size: 11px; color: var(--text-secondary);">Direct connections to IT and commercial decision makers at the Ministry of Civil Aviation and regional carriers.</p>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--premium-mint); padding: 20px; border-radius: 16px;">
-                            <i class="fa-solid fa-handshake" style="font-size: 24px; color: var(--premium-mint); margin-bottom: 10px;"></i>
-                            <h4 style="font-family: 'Space Grotesk'; font-size: 15px; margin-bottom: 5px;">Commercial Integration</h4>
-                            <p style="font-size: 11px; color: var(--text-secondary);">Inter-modal system access with regional transport networks and banking ESG funds in the Middle East.</p>
-                        </div>
+                    </div>
+
+                    <!-- Strategic Ask Showcase -->
+                    <div class="ask-card-wrapper">
+                        <span style="font-size: 11px; text-transform: uppercase; color: var(--text-secondary); letter-spacing: 2px;">The Strategic Ask</span>
+                        <div class="ask-main-title">$350,000 USD</div>
+                        <p style="font-size: 13px; color: #fff;">For 15% Equity Stake: securing 18-month engineering runway, sponsor activation, and EgyptAir pilot.</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- -->
-        <!-- SLIDE 10: RESEARCH & RESOURCES -->
+        <!-- SLIDE 10: VIDEO DEMO SCREEN PLAYER -->
         <div class="slide" id="s10">
-            <div class="slide-layout">
-                <div class="slide-info" style="grid-column: span 2; padding: 40px 60px;">
-                    <div class="slide-header">
+            <div class="slide-layout" style="grid-template-columns: 1fr;">
+                <div class="slide-info" style="align-items: center; text-align: center; justify-content: center; height: 100%; padding: 40px 50px;">
+                    <div class="slide-header" style="position: absolute; top: 50px; right: 50px;">
                         <span class="slide-num">Slide 10 / 10</span>
-                        <span class="speaker-tag">Team</span>
-                    </div>
-                    <div style="margin-bottom: 15px;">
-                        <h2 class="slide-title">Research &amp; <span>Resources</span> Foundation</h2>
-                        <p class="slide-body-text" style="font-size: 17px; margin-bottom: 10px;">Every operational and physical metric utilized in the FLYNT economic engine is verified through audited airline studies and regulatory environmental models.</p>
                     </div>
 
-                    <div class="resources-grid">
-                        <div class="resource-card">
-                            <i class="fa-solid fa-gas-pump"></i>
-                            <div>
-                                <h4>Aircraft Fuel Burn Mechanics</h4>
-                                <p>Derived from the Boeing Fuel Consumption Study &amp; IATA environmental database. Every 1 kg weight reduction on a Boeing 737-800 saves ~0.15 kg of fuel per hour of block time, equating to EGP 46 savings at regional jet A-1 rates.</p>
-                            </div>
+                    <div class="video-box-container">
+                        <!-- Custom Fullscreen Toggle -->
+                        <button class="fullscreen-trigger-btn" id="fs-toggle-btn">
+                            <i class="fa-solid fa-expand"></i> Go Fullscreen
+                        </button>
+
+                        <!-- Input URL Paste Form for Presentation Versatility -->
+                        <div class="video-paste-box">
+                            <input type="text" class="video-input" id="vid-url-input" placeholder="Paste your presentation video stream link here (mp4 or embed)...">
+                            <button class="video-btn" id="vid-load-btn">Load Video</button>
                         </div>
-                        <div class="resource-card">
-                            <i class="fa-solid fa-dumpster-fire"></i>
-                            <div>
-                                <h4>Airline Catering Quarantine Regulations</h4>
-                                <p>Sourced from the FAO &amp; IATA Cabin Waste Handbook. Undelivered on-board meals are classified as high-risk International Catering Waste (ICW), requiring mandatory biological high-temp incineration, costing ~EGP 50 per plate in quarantine fees.</p>
-                            </div>
+
+                        <!-- Video Player Area -->
+                        <div class="video-player-placeholder" id="vid-placeholder">
+                            <i class="fa-solid fa-circle-play" style="font-size: 56px; color: var(--premium-mint); margin-bottom: 15px; cursor: pointer;"></i>
+                            <h3>FLYNT Interactive Video Showcase</h3>
+                            <p style="font-size: 12px; color: var(--text-secondary); max-width: 450px; margin-top: 5px;">Click play, load a custom stream link, or double-click to scale the viewport to fullscreen.</p>
                         </div>
-                        <div class="resource-card">
-                            <i class="fa-solid fa-brain"></i>
-                            <div>
-                                <h4>Gamified Loss Aversion &amp; Loyalty</h4>
-                                <p>Based on cognitive behavioral journals detailing "Streak Lock-in". Booking a competitor resetting the streak to 0/3 utilizes loss aversion paradigms, proven to raise booking retention rates by up to 28% within standard cohorts.</p>
-                            </div>
-                        </div>
-                        <div class="resource-card">
-                            <i class="fa-solid fa-chart-line"></i>
-                            <div>
-                                <h4>Egypt &amp; MENA ESG Transit Benchmarks</h4>
-                                <p>Statistical projections based on Egypt's Ministry of Civil Aviation hub expansion, Cairo Airport International passenger traffic index (10M targeted), and standard regional ride-hailing affiliate commissions.</p>
-                            </div>
-                        </div>
+                        <video class="video-player-frame" id="presentation-video" controls style="display: none;"></video>
                     </div>
                 </div>
             </div>
@@ -1326,8 +1583,7 @@
 
     </div>
 
-    <!-- -->
-    <!-- BOTTOM CONTROL BAR -->
+    <!-- BOTTOM PRESENTATION CONTROL INTERFACES -->
     <div class="bottom-navbar">
         <button class="nav-button" id="prev-slide"><i class="fa-solid fa-chevron-left"></i> Previous</button>
         <div class="indicators-track" id="dots-track"></div>
@@ -1337,41 +1593,23 @@
         </div>
     </div>
 
-    <!-- TOGGLEABLE SPEAKER CONSOLE (RIGHT PANEL) -->
+    <!-- TOGGLEABLE SPEAKER SCRIPTS CABINET PANEL -->
     <div class="notes-panel" id="notes-panel">
         <div class="notes-header">
             <h3><i class="fa-solid fa-microphone"></i> Presenter Console (Arabic)</h3>
             <button class="close-notes-btn" id="close-notes-btn"><i class="fa-solid fa-xmark"></i></button>
         </div>
         <div class="notes-content" id="notes-content-box">
-            <!-- Dynamic Content based on Slide Selection -->
+            <!-- Dynamic presenter notes are populated via Javascript state -->
         </div>
     </div>
 
     <script>
-        // CORE CONFIGURATIONS
         const slides = document.querySelectorAll('.slide');
         const dotsTrack = document.getElementById('dots-track');
         let currentSlide = 0;
 
-        // BUBBLES STEP-BY-STEP CONTROL FOR SLIDE 2
-        let currentBubbleStep = 0;
-        let slide2Timeouts = [];
-        let sequenceActive = false;
-
-        const bubbles = [
-            document.getElementById('b1'),
-            document.getElementById('b2'),
-            document.getElementById('b3'),
-            document.getElementById('b4'),
-            document.getElementById('b5'),
-            document.getElementById('b6')
-        ];
-        const bubbleCanvas = document.getElementById('bubble-canvas');
-        const centralNode = document.getElementById('central-p-node');
-        const nextStepBtn = document.getElementById('next-story-step');
-
-        // Dynamic Indicators Generation
+        // Dynamic Indicators Generator
         slides.forEach((_, i) => {
             const dot = document.createElement('div');
             dot.classList.add('nav-dot');
@@ -1382,7 +1620,6 @@
 
         const dots = document.querySelectorAll('.nav-dot');
 
-        //        // SLIDE NAVIGATION CONTROLS
         function updateSlideStates() {
             slides.forEach((slide, i) => {
                 slide.classList.remove('active');
@@ -1391,25 +1628,14 @@
             slides[currentSlide].classList.add('active');
             dots[currentSlide].classList.add('active');
 
-            // Set state buttons visibility
+            // Bottom navigation visual constraints
             document.getElementById('prev-slide').style.opacity = currentSlide === 0 ? '0.3' : '1';
             document.getElementById('next-slide').style.opacity = currentSlide === slides.length - 1 ? '0.3' : '1';
 
-            // Handle Slide 2 Transitions & Clear Timers
-            slide2Timeouts.forEach(clearTimeout);
-            slide2Timeouts = [];
-            sequenceActive = false;
+            // Trigger specific slide interactions
+            triggerSlideActions();
 
-            if (currentSlide !== 1) {
-                bubbleCanvas.classList.remove('imploded');
-                centralNode.classList.remove('show');
-                bubbles.forEach(b => b.classList.remove('active'));
-            } else {
-                // Enter Slide 2: Kickoff the automated 2-second interval sequence
-                startSlide2Sequence();
-            }
-
-            // Populate Presenter Scripts per Slide
+            // Populate Presenter Panel Arabic scripts
             updatePresenterNotes();
         }
 
@@ -1432,158 +1658,490 @@
             updateSlideStates();
         }
 
-        //        // SLIDE 2: AUTOMATED CASCADE ENVELOPE (2-Second Delay)
-        function startSlide2Sequence() {
-            // Reset state
-            bubbleCanvas.classList.remove('imploded');
-            centralNode.classList.remove('show');
-            bubbles.forEach(b => b.classList.remove('active'));
+        // VR HOLOGRAM CANVAS ANIMATION LOOP
+        const canvas = document.getElementById('vr-canvas');
+        const ctx = canvas.getContext('2d');
+        let vrAnimId;
+        let angle = 0;
+        let isHealthy = false;
+        
+        // Interactive Blueprint Camera States
+        let viewMode = 'map'; // 'map' or 'vr'
+        let zoomProgress = 0; // 0 = map overview, 1 = focused closely on VR pod
+        let targetZoom = 0;
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function drawHologram() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
             
-            nextStepBtn.innerHTML = 'Analyzing Core Envelopes...';
-            nextStepBtn.disabled = true;
-            nextStepBtn.style.borderColor = 'rgba(255,255,255,0.1)';
-            nextStepBtn.style.color = '#94a3b8';
+            // Smooth Camera Zoom Interpolation
+            zoomProgress += (targetZoom - zoomProgress) * 0.1;
+            angle += isHealthy ? 0.01 : 0.025;
 
-            currentBubbleStep = 0;
-            sequenceActive = true;
+            // DRAW TECH BACKGROUND GRID
+            ctx.strokeStyle = 'rgba(14, 165, 233, 0.04)';
+            ctx.lineWidth = 1;
+            const gridSize = 25;
+            for(let x=0; x<canvas.width; x+=gridSize) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            for(let y=0; y<canvas.height; y+=gridSize) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
+            }
 
-            // Chain timeouts for the 6 bubbles
-            for (let i = 0; i < bubbles.length; i++) {
-                let t = setTimeout(() => {
-                    if (!sequenceActive) return;
-                    bubbles[i].classList.add('active');
-                    currentBubbleStep = i + 1;
-                    
-                    // Once final bubble appears, activate the Implode action
-                    if (currentBubbleStep === bubbles.length) {
-                        nextStepBtn.innerHTML = 'Merge & Implode <i class="fa-solid fa-burst" style="margin-left: 8px;"></i>';
-                        nextStepBtn.disabled = false;
-                        nextStepBtn.style.borderColor = 'var(--premium-mint)';
-                        nextStepBtn.style.color = '#fff';
+            // CAMERA TRANSLATION & SCALE (Zooms onto top-right VR Pod)
+            ctx.save();
+            
+            // VR Pod original coordinates in relative map space
+            const vrCornerX = 85;
+            const vrCornerY = -85;
+
+            // Translate camera center based on zoom progress
+            const currentX = cx - (vrCornerX * zoomProgress * 2.2);
+            const currentY = cy - (vrCornerY * zoomProgress * 2.2);
+            const currentScale = 1 + (zoomProgress * 2.2);
+
+            ctx.translate(currentX, currentY);
+            ctx.scale(currentScale, currentScale);
+
+            // 1. DRAW LOUNGE BLUEPRINT FLOOR PLAN (Fades out when zooming in)
+            ctx.globalAlpha = Math.max(0, 1 - zoomProgress);
+            
+            // Lounge Outer Walls
+            ctx.strokeStyle = 'rgba(14, 165, 233, 0.25)';
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(-120, -120, 240, 240);
+
+            // Lounge Entrance Architecture
+            ctx.fillStyle = 'rgba(14, 165, 233, 0.4)';
+            ctx.font = '700 8px monospace';
+            ctx.fillText("MAIN ENTRANCE", -110, 115);
+            ctx.beginPath();
+            ctx.moveTo(-120, 80); ctx.lineTo(-120, 105);
+            ctx.stroke();
+
+            // Seat Blueprints on Lounge Map
+            ctx.strokeStyle = 'rgba(14, 165, 233, 0.12)';
+            for(let i = -70; i <= 10; i += 40) {
+                ctx.strokeRect(-90, i, 25, 22);
+                ctx.fillText("SEAT", -84, i + 14);
+            }
+            
+            // Central Sponsor Table Blueprint
+            ctx.strokeRect(-15, -40, 35, 75);
+            ctx.fillText("RECEPTION", -12, 0);
+
+            // 2. DRAW THE VR CORNER (Always visible, stays locked to top-right on map)
+            ctx.globalAlpha = 1;
+
+            // Highlighted Zone Circle
+            ctx.strokeStyle = isHealthy ? 'rgba(0, 245, 155, 0.6)' : 'rgba(239, 68, 68, 0.6)';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(vrCornerX, vrCornerY, 32, 0, Math.PI * 2);
+            ctx.stroke();
+
+            ctx.fillStyle = isHealthy ? 'rgba(0, 245, 155, 0.08)' : 'rgba(239, 68, 68, 0.08)';
+            ctx.fill();
+
+            // Micro VR Pod Core
+            ctx.beginPath();
+            ctx.arc(vrCornerX, vrCornerY, 12, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Map Label text
+            ctx.fillStyle = isHealthy ? '#00f59b' : '#ef4444';
+            ctx.font = 'bold 8px monospace';
+            ctx.fillText("VR STATION", vrCornerX - 25, vrCornerY + 45);
+
+            // Holographic Camera Viewfinder lines locked to VR Pod area
+            if (viewMode === 'map') {
+                ctx.strokeStyle = 'rgba(0, 245, 155, 0.8)';
+                ctx.lineWidth = 1;
+                const offset = 38 + Math.sin(angle * 5) * 2;
+                
+                // Top-Left corner viewfinder
+                ctx.beginPath();
+                ctx.moveTo(vrCornerX - offset, vrCornerY - offset + 8);
+                ctx.lineTo(vrCornerX - offset, vrCornerY - offset);
+                ctx.lineTo(vrCornerX - offset + 8, vrCornerY - offset);
+                // Top-Right
+                ctx.moveTo(vrCornerX + offset, vrCornerY - offset + 8);
+                ctx.lineTo(vrCornerX + offset, vrCornerY - offset);
+                ctx.lineTo(vrCornerX + offset - 8, vrCornerY - offset);
+                // Bottom-Left
+                ctx.moveTo(vrCornerX - offset, vrCornerY + offset - 8);
+                ctx.lineTo(vrCornerX - offset, vrCornerY + offset);
+                ctx.lineTo(vrCornerX - offset + 8, vrCornerY + offset);
+                // Bottom-Right
+                ctx.moveTo(vrCornerX + offset, vrCornerY + offset - 8);
+                ctx.lineTo(vrCornerX + offset, vrCornerY + offset);
+                ctx.lineTo(vrCornerX + offset - 8, vrCornerY + offset);
+                ctx.stroke();
+            }
+
+            ctx.restore();
+
+            // 3. EXPLODED VR POD CLOSEUP WIREFRAME (Grows more detailed as zoomProgress -> 1)
+            if (zoomProgress > 0.15) {
+                ctx.save();
+                ctx.globalAlpha = zoomProgress;
+
+                const capRad = 85;
+
+                // Glowing circular pod field
+                const pGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, capRad + 40);
+                pGrad.addColorStop(0, isHealthy ? 'rgba(0, 245, 155, 0.2)' : 'rgba(239, 68, 68, 0.2)');
+                pGrad.addColorStop(1, 'transparent');
+                ctx.fillStyle = pGrad;
+                ctx.beginPath(); ctx.arc(cx, cy, capRad + 40, 0, Math.PI * 2); ctx.fill();
+
+                // Glass Dome outer wireframe
+                ctx.strokeStyle = isHealthy ? 'rgba(0, 245, 155, 0.75)' : 'rgba(239, 68, 68, 0.75)';
+                ctx.lineWidth = 2;
+                ctx.beginPath(); ctx.arc(cx, cy, capRad, 0, Math.PI * 2); ctx.stroke();
+
+                // Cybernetic Seat base inside Pod
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(cx - 28, cy + 45);
+                ctx.lineTo(cx + 28, cy + 45);
+                ctx.lineTo(cx + 20, cy + 10);
+                ctx.lineTo(cx - 20, cy + 10);
+                ctx.closePath(); ctx.stroke();
+
+                // Seat Backrest
+                ctx.beginPath();
+                ctx.moveTo(cx - 18, cy + 10);
+                ctx.lineTo(cx - 12, cy - 35);
+                ctx.lineTo(cx + 12, cy - 35);
+                ctx.lineTo(cx + 18, cy + 10);
+                ctx.stroke();
+
+                // Floating user head wearing VR Headset
+                ctx.strokeStyle = isHealthy ? 'rgba(0, 245, 155, 0.85)' : 'rgba(239, 68, 68, 0.85)';
+                ctx.beginPath();
+                ctx.arc(cx, cy - 18, 10, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.fillStyle = isHealthy ? 'rgba(0, 245, 155, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+                ctx.fill();
+
+                // White illuminated VR visor goggles
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(cx - 8, cy - 22, 16, 5);
+
+                // Scanning active tech radar slice inside capsule
+                ctx.strokeStyle = isHealthy ? 'rgba(0, 245, 155, 0.35)' : 'rgba(239, 68, 68, 0.35)';
+                const scanLineY = cy + Math.sin(angle * 4.5) * capRad;
+                const scanHalfWidth = Math.sqrt(Math.max(0, capRad*capRad - Math.pow(scanLineY - cy, 2)));
+                ctx.beginPath();
+                ctx.moveTo(cx - scanHalfWidth, scanLineY);
+                ctx.lineTo(cx + scanHalfWidth, scanLineY);
+                ctx.stroke();
+
+                // Blueprint telemetry tags
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.font = '8px monospace';
+            ctx.fillText("EXPLODED FOCUS: VR CAPSULE", cx - 60, cy - capRad - 15);
+
+            ctx.restore();
+        }
+
+        vrAnimId = requestAnimationFrame(drawHologram);
+    }
+
+    // SOUND GENERATOR DISABLED FOR SILENT PREMIUM RUNS (Removed annoying synth tones as requested)
+    function triggerSynthAudio(freq, type, duration) {
+        // تم تعطيل الأصوات الاصطناعية لضمان عرض صامت وراقي بدون أي تشويش أو طنين
+    }
+
+    // SLIDE TRIGGER FUNCTIONS
+    function triggerSlideActions() {
+            // Slide 8 Financial Animation Reset and Grow
+            const fills = [
+                { id: 'bar-rev-1', val: '95%' },
+                { id: 'bar-rev-2', val: '93%' },
+                { id: 'bar-rev-3', val: '54%' }
+            ];
+            
+            if (currentSlide === 7) {
+                setTimeout(() => {
+                    fills.forEach(f => {
+                        const el = document.getElementById(f.id);
+                        if (el) el.style.width = f.val;
+                    });
+                }, 300);
+            } else {
+                fills.forEach(f => {
+                    const el = document.getElementById(f.id);
+                    if (el) el.style.width = '0%';
+                });
+            }
+
+            // Slide 9 User Flow Flowchart Path Trigger Animation
+            if (currentSlide === 8) {
+                let step = 1;
+                const flowFill = document.getElementById('journey-flow-fill');
+                const nodes = document.querySelectorAll('.journey-node');
+                
+                // Clear all active states first
+                nodes.forEach(n => n.classList.remove('node-active'));
+                nodes[0].classList.add('node-active');
+                if (flowFill) flowFill.style.width = '0%';
+
+                const interval = setInterval(() => {
+                    if (currentSlide !== 8 || step >= 5) {
+                        clearInterval(interval);
+                        return;
                     }
-                }, i * 2000);
-                slide2Timeouts.push(t);
+                    step++;
+                    if (flowFill) flowFill.style.width = `${(step - 1) * 25}%`;
+                    nodes[step - 1].classList.add('node-active');
+                }, 1000);
+            }
+
+            // VR Hologram Engine Start/Stop based on Slide 5 focus
+            if (currentSlide === 4) {
+                resizeCanvas();
+                cancelAnimationFrame(vrAnimId);
+                // Return to Lounge Map View mode as default
+                viewMode = 'map';
+                targetZoom = 0;
+                document.getElementById('vr-hud-title-txt').innerText = "CAMERA: LOUNGE BLUEPRINT";
+                document.getElementById('vr-temp-val').innerText = "LOUNGE MAP";
+                document.getElementById('vr-impact-val').innerText = "CLICK VR POD TO ZOOM IN";
+                document.getElementById('vr-prompt-text').innerText = "SELECT VR CORNER";
+                document.getElementById('vr-status-txt').innerText = "SYS STATUS: STDBY";
+                document.getElementById('vr-status-txt').style.color = "#94a3b8";
+                isHealthy = false;
+
+                vrAnimId = requestAnimationFrame(drawHologram);
+                triggerSynthAudio(350, 'triangle', 0.6); // space sweep tone
+            } else {
+                cancelAnimationFrame(vrAnimId);
             }
         }
 
-        // BUBBLES MANUAL TRIGGER FOR MERGING
-        nextStepBtn.addEventListener('click', () => {
-            if (nextStepBtn.disabled) return;
-
-            if (currentBubbleStep === bubbles.length) {
-                // Trigger cinematic merger implosion
-                bubbleCanvas.classList.add('imploded');
-                nextStepBtn.innerHTML = 'Merging...';
-                nextStepBtn.disabled = true;
-
-                let t1 = setTimeout(() => {
-                    centralNode.classList.add('show');
-                    nextStepBtn.innerHTML = 'Reset Cinematic Sequence <i class="fa-solid fa-rotate-left" style="margin-left: 8px;"></i>';
-                    nextStepBtn.disabled = false;
-                    currentBubbleStep = bubbles.length + 1; // Mark as done
-                }, 1000);
-                slide2Timeouts.push(t1);
-            } else if (currentBubbleStep > bubbles.length) {
-                // Reset State and start again
-                startSlide2Sequence();
+        // SLIDE 3 PHONE ONBOARDING CARD INTERACTIVITY
+        const cards = ['earn-transit', 'earn-weight', 'earn-meal'];
+        cards.forEach(id => {
+            const card = document.getElementById(id);
+            if (card) {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('selected');
+                    triggerSynthAudio(600, 'sine', 0.1);
+                });
             }
         });
 
-        // INTERACTIVE PHONES DASHBOARD TABS & INTERACTIONS
-        document.getElementById('earn-transit-card').addEventListener('click', function() {
-            this.classList.toggle('selected');
-        });
-        document.getElementById('earn-weight-card').addEventListener('click', function() {
-            this.classList.toggle('selected');
-        });
-        document.getElementById('earn-meal-card').addEventListener('click', function() {
-            this.classList.toggle('selected');
+        // SLIDE 5: VR ADVANCED SIMULATOR MECHANICS & TRIGGERING CAMERA FOCUS
+        const vrBox = document.getElementById('vr-radar-simulation');
+        const vrTemp = document.getElementById('vr-temp-val');
+        const vrCo2 = document.getElementById('vr-impact-val');
+        const vrStatus = document.getElementById('vr-status-txt');
+        const vrLog = document.getElementById('vr-log-screen');
+        const vrPrompt = document.getElementById('vr-prompt-text');
+        const vrHudTitle = document.getElementById('vr-hud-title-txt');
+
+        const btnShowMap = document.getElementById('btn-show-map');
+        const btnFocusVR = document.getElementById('btn-focus-vr');
+
+        function addLog(text) {
+            const newLog = document.createElement('div');
+            newLog.innerText = `[SYS] ${text}`;
+            vrLog.appendChild(newLog);
+            if (vrLog.children.length > 5) {
+                vrLog.removeChild(vrLog.children[0]);
+            }
+        }
+
+        const triggerFocusMode = () => {
+            viewMode = 'vr';
+            targetZoom = 1;
+            isHealthy = true;
+            vrBox.classList.remove('warning');
+            vrBox.classList.add('healthy');
+            
+            if (vrHudTitle) vrHudTitle.innerText = "CAMERA MODE: VR CAPSULE FOCUS";
+            if (vrTemp) vrTemp.innerHTML = '38°C (OK)';
+            if (vrCo2) vrCo2.innerHTML = 'CO2 SHIELD: STABILIZED';
+            if (vrPrompt) vrPrompt.innerHTML = "TAP TO EXIT FOCUS";
+            if (vrStatus) {
+                vrStatus.innerHTML = "STATUS: VR CAPSULE ONLINE";
+                vrStatus.style.color = "var(--premium-mint)";
+                vrStatus.style.textShadow = "0 0 10px rgba(0, 245, 155, 0.4)";
+            }
+            addLog("Transitioning camera matrix to top-right corner.");
+            addLog("VR Pod close-up system engaged.");
+            addLog("Atmosphere scrubbers: fully active.");
+            triggerSynthAudio(880, 'sine', 0.35); // Success chime
+        };
+
+        const triggerMapMode = () => {
+            viewMode = 'map';
+            targetZoom = 0;
+            isHealthy = false;
+            vrBox.classList.remove('healthy');
+            vrBox.classList.add('warning');
+
+            if (vrHudTitle) vrHudTitle.innerText = "CAMERA MODE: LOUNGE BLUEPRINT";
+            if (vrTemp) vrTemp.innerHTML = 'LOUNGE MAP';
+            if (vrCo2) vrCo2.innerHTML = 'CLICK VR POD TO ZOOM IN';
+            if (vrPrompt) vrPrompt.innerHTML = "SELECT VR CORNER";
+            if (vrStatus) {
+                vrStatus.innerHTML = "SYS STATUS: STANDBY";
+                vrStatus.style.color = "#ef4444";
+                vrStatus.style.textShadow = "0 0 10px rgba(239, 68, 68, 0.4)";
+            }
+            addLog("Resetting camera view matrix.");
+            addLog("Rendering lounge layout blueprint.");
+            triggerSynthAudio(330, 'sawtooth', 0.25); // Transition swipe tone
+        };
+
+        if (btnFocusVR) btnFocusVR.addEventListener('click', triggerFocusMode);
+        if (btnShowMap) btnShowMap.addEventListener('click', triggerMapMode);
+
+        if (vrBox) {
+            vrBox.addEventListener('click', () => {
+                if (viewMode === 'map') {
+                    triggerFocusMode();
+                } else {
+                    triggerMapMode();
+                }
+            });
+        }
+
+        // SLIDE 7: CHANNELS INTERACTIVE CARDS
+        const channelCards = document.querySelectorAll('.channel-card');
+        channelCards.forEach(card => {
+            card.addEventListener('click', () => {
+                channelCards.forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                triggerSynthAudio(500, 'sine', 0.1);
+            });
         });
 
-        // PRESENTATION SCRIPTS DATABASE (ARABIC STORYTELLING)
+        // SLIDE 10 PRESENTATION VIDEO HOOK
+        const video = document.getElementById('presentation-video');
+        const videoInput = document.getElementById('vid-url-input');
+        const loadBtn = document.getElementById('vid-load-btn');
+        const placeholder = document.getElementById('vid-placeholder');
+        const fsBtn = document.getElementById('fs-toggle-btn');
+
+        if (loadBtn && video && videoInput && placeholder) {
+            loadBtn.addEventListener('click', () => {
+                const url = videoInput.value.trim();
+                if (url) {
+                    video.src = url;
+                    video.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    video.play().catch(e => console.log("Auto-play blocked: ", e));
+                }
+            });
+        }
+
+        if (placeholder && video) {
+            placeholder.addEventListener('click', () => {
+                video.style.display = 'block';
+                placeholder.style.display = 'none';
+                video.play().catch(e => console.log("Playback error: ", e));
+            });
+        }
+
+        if (fsBtn && video) {
+            fsBtn.addEventListener('click', () => {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.webkitRequestFullscreen) {
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) {
+                    video.msRequestFullscreen();
+                }
+            });
+        }
+
+        // ARABIC SPEAKER PANELS SCRIPTS
         const presenterScripts = [
-            // Slide 1 (Cover)
-            `<h4>المتحدث: ياسين</h4>
-             <p class="quote">"مساء الخير جميعاً. أهلاً بكم في انطلاقة مشروع FLYNT لعام 2026."</p>
-             <ul>
-                <li>ابدأ بوقفة ثقة، ووزع نظراتك ببطء على الحاضرين.</li>
-                <li>عرف بمشروع FLYNT: الفكرة التي تعيد صياغة أنظمة ولاء الطيران من خلال تسييل السلوك السدامي للمسافرين.</li>
-                <li>اليوم نقدم لكم فريقنا المتكامل الملتزم بتنفيذ هذه الرؤية على أرض الواقع: ياسين، كنزي، وحمزة.</li>
-             </ul>`,
-            // Slide 2 (Cinematic)
-            `<h4>المتحدث: ياسين</h4>
-             <p class="quote">"لقرن كامل، عكف مهندسو الطيران داخل مختبراتهم السرية، يقاتلون من أجل تقليص وقود الطائرة بنسبة 1%... لقد غيروا تصميم الأجنحة، وطوروا كفاءة المحركات، وحولوا هياكل الطائرات لألياف كربون خفيفة."</p>
-             <p class="quote">"أنفقوا مئات المليارات لتغيير الآلة... ولكنهم نسوا تماماً تغيير الراكب! الوزن الزائد، هدر الوجبات الغذائية، انبعاثات مشوار المطار. الأزمة ليست في الآلة، بل في السلوك البشري! واليوم، نحن لا نغير المحركات; نحن نعيد برمجة سلوك المسافر ليصبح هو المحرك الأكبر للاستدامة!"</p>
-             <ul>
-                <li><strong>ملاحظة هامة للمشهد:</strong> بمجرد دخولك هذه الشريحة، ستلاحظ ظهور الدوائر الست الفاخرة بشكل تلقائي وتدريجي خلفك بفارق ثانيتين بين كل صورة لتأخذ اللجنة في رحلة بصرية صامتة ومبهرة.</li>
-                <li>تحدث بتناغم وهدوء مع تسلسل الصور.</li>
-                <li>بمجرد اكتمال ظهور الدائرة السادسة وتوهج زر التحكم باللون الأخضر، وجه يدك نحو الشاشة واضغط على "Merge & Implode" لتشاهد اللجنة كيف تصغر الدوائر فجأة وتطير نحو المركز لتندمج وتتلاشى، لينبثق مكانها فوراً النواة الزمردية الرائعة التي تحمل كلمة <strong>PASSENGER</strong> في مشهد سينمائي خاطف للأنظار!</li>
-             </ul>`,
-            // Slide 3 (How to Earn)
-            `<h4>المتحدث: ياسين</h4>
-             <p class="quote">"كيف يعمل هذا السحر؟ ببساطة عبر دمج الـ SDK البرمجية لـ FLYNT داخل تطبيق تطبيق شركة الطيران الأصلي لعام 2026."</p>
-             <p class="quote">"قبل الرحلة بـ 48 ساعة، يفتح الراكب واجهتنا الذكية، وبنقرات بسيطة على شاشات التطبيق يختار: حجز سيارة كهربائية للتوجه للمطار (Eco-Transit)، تقليص وزن حقيبته بمقدار 1 كجم تحت الحد المسموح لتوفير وزن إقلاع الطائرة (Light Luggage)، وإلغاء وجبته مسبقاً (Meal Opt-Out). فوراً، يتم تحويل السلوك لنوعين ماليين وسلوكيين من النقاط."</p>
-             <ul>
-                <li>يمكنك استخدام الماوس للضغط الفعلي وتفعيل الاختيارات داخل مجسم الهاتف الذكي أمام اللجنة لإثبات تفاعلية المنتج.</li>
-                <li>اشرح كيف أن النظام مريح وسلس وسهل التطبيق للراكب العربي العادي.</li>
-             </ul>`,
-            // Slide 4 (How to Spend)
-            `<h4>المتحدثة: كنزي</h4>
-             <p class="quote">"والآن، كيف يستفيد المسافر من هذه النقاط؟ قمنا بفصل المكافأة بذكاء هندسي وسلوكي متوافق تماماً مع واقع المنطقة."</p>
-             <p class="quote">"أولاً: النقاط الخضراء؛ وهي عملة دائمة لا تتصَفّر أبداً، يصرفها المسافر في شراء منتجات الرعاة أو الـ Aero-Tags. ثانياً: نقاط الستريك؛ عداد مرن يحتاج 3 رحلات متتالية فقط خلال سنة ونصف ليحصل على ترقية درجة رجال الأعمال. ولكن، إذا اختار الطيران مع منافس في منتصف الطريق، يفقد الستريك بالكامل ويعود لـ 0/3!"</p>
-             <ul>
-                <li>تحدثي بأسلوب تفاعلي وحيوي لتوضيح ميزة "أثر احتجاز العميل" (Lock-In Effect).</li>
-                <li>أظهري للجنة تحذير ضياع الستريك على شاشة الهاتف، وكيف يدفع ذلك المسافر لرفض الحجز مع أي منافس لحماية ترقيته القريبة جداً.</li>
-             </ul>`,
-            // Slide 5 (Value Proposition)
-            `<h4>المتحدثة: كنزي</h4>
-             <p class="quote">"من هنا تتلخص قيمة FLYNT (Value Proposition) في كونه المحرك الأول والوحيد الذي ينقل التزامات الـ ESG والمناخ لشركات الطيران من عبء مالي مستنزف للأرباح، إلى منبع للسيولة والتدفقات النقدية والوفورات المباشرة عالية الهامش."</p>
-             <ul>
-                <li>أكدي على سهولة الانتشار عبر قنوات الطيران المدمجة (In-App Checkout & Notifications).</li>
-                <li>العميل مستهدف تشغيلياً قبل رحلته بـ 48 ساعة عندما يكون اهتمامه بالتطبيق في ذروته.</li>
-             </ul>`,
-            // Slide 6 (Competition Matrix)
-            `<h4>المتحدثة: كنزي</h4>
-             <p class="quote">"برامج الولاء التقليدية تطلب من الراكب الشراء المالي لجمع النقاط، وإضافات الكربون الأخرى تفشل لأنها تطلب منه التبرع بالمال لزراعة شجر بنسبة امتثال لا تتعدى 1%."</p>
-             <p class="quote">"في FLYNT، نحن نكافئ سلوكه القائم والذاتي مجاناً! ونظام الـ 3-Trip Streak يعطينا اليد الطولى، لأن ترقيات البيزنس كلاس تتم على المقاعد الشاغرة قبل الإقلاع مباشرة، مما يعني تكلفة إضافية تشغيلية شبه منعدمة للشركة، مقابل احتجاز وضمان ولاء مطلق."</p>
-             <ul>
-                <li>استعرضي تفاصيل الجدول التنافسي بثقة.</li>
-                <li>أكدي أن الميزة التنافسية لـ FLYNT تدمج بين الوفورات والولاء معاً.</li>
-             </ul>`,
-            // Slide 7 (Financial Ledger)
-            `<h4>المتحدث: حمزة</h4>
-             <p class="quote">"دعونا نترك العواطف جانباً وننتقل للغة الأرقام الصارمة لبحثنا لعام 2026. كل فكرة هنا مفككة فيزيائياً ومالياً بالجنيه والدولار:"</p>
-             <ul>
-                <li><strong>مشوار المطار:</strong> نوفر 4.8 كجم $CO_2$ لكل راكب. وبعمولة 10% من تطبيقات النقل، تدخل محفظة الطيران <strong>60 مليون جنيه مصري</strong> كأرباح إضافية صافية بدون أي أصول.</li>
-                <li><strong>فيزياء الأوزان:</strong> تخفيف 1 كجم للراكب يوفر وقوداً بقيمة <strong>32.2 مليون جنيه</strong> (بسعر 46 جنيهاً للكيلو شامل الرسوم). ورغم خسارة 20 مليون جنيه من غرامات الأمتعة، يظل الفارق إيجابياً ومربحاً وموفراً لغرامات الكربون الدولية.</li>
-                <li><strong>بند الوجبات:</strong> إلغاء الوجبة مسبقاً يمنع كلفة التجهيز والإعدام بالمحارق البيولوجية، ليوفر كاش فوري ضخم يقدر بـ <strong>435 مليون جنيه مصري</strong>!</li>
-                <li><strong>مبيعات المتجر والرعاة:</strong> نحقق <strong>260 مليون جنيه</strong> من عقود الرعاية وعمولات الشراء.</li>
-                <li><strong>الصافي الكلي:</strong> FLYNT يضخ **+755 مليون جنيه مصري (ما يعادل 15.7 مليون دولار صافي للأرباح)** سنوياً لشركة الطيران!</li>
-             </ul>`,
-            // Slide 8 (TAM SAM SOM)
-            `<h4>المتحدث: ياسين</h4>
-             <p class="quote">"سوقنا المتاح والمستهدف لعام 2026 واعد وضخم للغاية."</p>
-             <ul>
-                <li>اشرح أحجام الدوائر الثلاثة المتقاطعة بتركيز وثبات.</li>
-                <li>السوق العالمي (TAM) يتجاوز 157 مليار دولار للخدمات الإضافية.</li>
-                <li>هدفنا المباشر (SOM) البالغ 150 مليون دولار يركز بالكامل على شركات ومحاور الطيران الإقليمية بالمنطقة ومصر (مثل مصر للطيران وإير كايرو)، للاستفادة من طفرة ركاب مطار القاهرة الدولي.</li>
-             </ul>`,
-            // Slide 9 (Strategic Ask)
-            `<h4>المتحدث: ياسين</h4>
-             <p class="quote">"لإغلاق هذه صفقة والتحول للتنفيذ الفعلي، نحن لا نبحث عن مجرد شيك مالي تقليدي، بل نبحث عن شراكة هيكلية واستراتيجية شاملة تشمل:"</p>
-             <ul>
-                <li><strong>التمويل المالي:</strong> نطلب جولة تمويلية بقيمة <strong>250,000 دولار</strong> لتغطية مراجعات أمان برمجيات الـ SDK وتهيئة استقرار قواعد البيانات السحابية.</li>
-                <li><strong>شبكة العلاقات والمصادر (Connections):</strong> نحتاج إلى فتح قنوات اتصال مباشر وتسهيل الدخول لمتخذي القرار بوزارة الطيران المدني وإدارات الشركات الوطنية.</li>
-                <li><strong>الشراكات التجارية:</strong> التكامل مع شبكات النقل الذكي وصناديق الـ ESG المصرفية.</li>
-                <li>انهي حديثك بقوة: "المستقبل لن ينتظر تغيير الآلة لمئة عام أخرى... المستقبل يبدأ الآن بلمسة زر على هاتف الراكب. شكراً لكم."</li>
-             </ul>`,
-            // Slide 10 (Resources)
+            // Slide 1
             `<h4>المتحدث: الفريق بأكمله</h4>
-             <p class="quote">"كل مليم قمنا باحتسابه وكل فرضية فيزيائية قمنا بتبنيها مستندة بالكامل إلى مراجع صناعية وعلمية رصينة."</p>
+             <p class="quote">"أهلاً بكم جميعاً في العرض التقديمي لمشروع FLYNT لعام 2026. اليوم سنعرض عليكم كيف يمكن لتغيير سلوك بسيط للراكب أن يحمي كوكب الأرض ويحقق في نفس الوقت أرباحاً بملايين الدولارات لشركات الطيران."</p>
              <ul>
-                <li>اشرح للجنة أن نموذج FLYNT مبني على مراجع موثقة وليس مجرد فرضيات نظرية.</li>
-                <li><strong>معايير الاستهلاك:</strong> الإشارة إلى تقارير بوينج و إياتا (IATA) لفيزياء الأوزان ومحارق وجبات الحجر الصحي الدولي (Bio-Incineration).</li>
-                <li><strong>الولاء السلوكي:</strong> دراسات هارفارد و MIT في مجالات "تجنب الخسارة" (Loss Aversion) وجدوى نظام الـ Streak في الهواتف الذكية.</li>
+                <li>يبدأ ياسين بتقديم الفريق: ياسين، كنزي، وحمزة.</li>
+                <li>العرض متكامل بـ 10 شرائح الآن لتسهيل الشرح بشكل منظم ومريح للجنة التحكيم.</li>
+             </ul>`,
+            // Slide 2
+            `<h4>المتحدث: ياسين</h4>
+             <p class="quote">"سؤال بسيط.. هل يمكن لراكب واحد فقط أن يساعد شركة طيران في تقليص انبعاثاتها الكربونية قبل أن تقلع الطائرة من الأساس؟"</p>
+             <p class="quote">"أثناء حديثنا مع بعض المسافرين، التقينا بمسافرة قامت بكل شيء صحيح؛ استقلت وسائل النقل العام للوصول للمطار، سافرت بحقيبة خفيفة الوزن للغاية، ورفضت تناول الوجبة الإضافية على متن الطائرة لأنها لم تكن بحاجة إليها. ومع ذلك، لم يلاحظ أحد مجهودها البيئي."</p>
+             <p class="quote">"هذا الحوار ألهمنا بسؤال بسيط: ماذا لو تم مكافأة كل قرار وسلوك مستدام يتخذه المسافر؟ من هنا انطلقت فكرة FLYNT!"</p>
+             <ul>
+                <li>تحدث بتأني واظهر مأساة أن مجهود الركاب المستقل يضيع هباءً دون تقدير.</li>
+             </ul>`,
+            // Slide 3
+            `<h4>المتحدث: ياسين</h4>
+             <p class="quote">"إذن، كيف يجمع المسافرون النقاط الخضراء عبر تطبيق FLYNT؟"</p>
+             <p class="quote">"ببساطة، عندما يفتح المسافر واجهة تطبيق FLYNT التفاعلية (المدمجة بـ SDK داخل تطبيق شركة الطيران). يقوم باختيار سلوكيات صديقة للبيئة مثل: حزم حقائب خفيفة الوزن لتخفيف كتلة الطائرة، أو حجز مواصلات المطار الكهربائية (مترو أو تاكسي ذكي)، أو إلغاء وجبته مسبقاً."</p>
+             <ul>
+                <li>قم بالضغط على بطاقات الهاتف التفاعلي لشرح طريقة كسب النقاط للجنة بشكل عملي.</li>
+             </ul>`,
+            // Slide 4
+            `<h4>المتحدثة: كنزي</h4>
+             <p class="quote">"والآن، لننتقل لكيفية صرف واسترداد المسافر لهذه النقاط المتراكمة."</p>
+             <p class="quote">"قمنا ببناء متجر رعاة متكامل داخل التطبيق (Sponsor Marketplace). يمكن للركاب استبدال نقاطهم بكوبونات خصم حقيقية على منتجات الرعاة (مثل Bose أو Orange أو قنوات الاتصالات والخدمات المالية بمصر) أو حتى الترقية لدرجة رجال الأعمال."</p>
+             <ul>
+                <li>اشرحي أن هذا المتجر ممول بالكامل من الرعاة، وبالتالي لا تدفع شركة الطيران أي أموال مقابل مكافأة الركاب.</li>
+             </ul>`,
+            // Slide 5
+            `<h4>المتحدثة: كنزي</h4>
+             <p class="quote">"لكن كيف نجذب المسافرين لتجربة هذا النظام وبناء شراكة إعلانية فريدة داخل صالات المطارات؟"</p>
+             <p class="quote">"أمامكم الآن خريطة ومخطط تفاعلي كامل للصالة (Lounge Map). يمكنكم رؤية كبسولة ومحطة الـ VR متمركزة ومثبتة في زاوية صالة الرعاة لضمان تدفق المسافرين بسلاسة دون مضايقة الحركة."</p>
+             <p class="quote">"وعند النقر على 'تركيز الكاميرا' أو كبسولة الـ VR بالزاوية، تنتقل الكاميرا تلقائياً وتتقرب بنظام زووم تفاعلي رائع ليكشف لنا تفاصيل كبسولة الـ VR. الراكب يرتدي النظارة بداخلها ليرى البصمة البيئية لقراراته."</p>
+             <ul>
+                <li>انقري على أزرار التبديل لتري للجنة التحكيم المخطط الجغرافي للصالة ثم التركيز المقرب المذهل للـ VR.</li>
+             </ul>`,
+            // Slide 6
+            `<h4>المتحدث: ياسين</h4>
+             <p class="quote">"أمامكم الآن ميزتنا التنافسية (Competitive Edge) ومقارنتنا المباشرة بالأنظمة البديلة:"</p>
+             <p class="quote">"أنظمة الولاء التقليدية تُمثل عبئاً مالياً مباشراً على شركات الطيران. برامج تعويض الكربون تفرض غرامات أو ضرائب منفرة. نحن الوحيدون الذين نقدم حافزاً إيجابياً وتجربة تفاعلية وبتمويل خارجي 100% من الرعاة دون أي كلفة رأس مالية."</p>
+             <ul>
+                <li>ركز على نقاط القوة الزمردية في جدول المقارنة الفخم لإظهار تميز نموذج أعمالنا.</li>
+             </ul>`,
+            // Slide 7
+            `<h4>المتحدث: ياسين</h4>
+             <p class="quote">"من أجل الوصول لجمهورنا بالشكل الأمثل، نعتمد على استراتيجية قنوات متعددة (Marketing Channels):"</p>
+             <p class="quote">"نستغل تكامل حزمة الـ SDK لتقليص كلفة الاستحواذ على العملاء إلى الصفر. نستخدم الإشعارات الجغرافية لتذكير المسافرين، ومحطات الـ VR الممولة لتبني الولاء السلوكي، وواجهات الكاونترات لتسجيل توفير الوزن فورياً."</p>
+             <ul>
+                <li>اضغط على بطاقات القنوات لتوضيح كيف نصل للمسافر في كل مرحلة من رحلته ومكانه بالمطار.</li>
+             </ul>`,
+            // Slide 8
+            `<h4>المتحدث: حمزة</h4>
+             <p class="quote">"دعونا نترجم هذه التأثيرات السلوكية والتنافسية إلى أرقام مالية دقيقة ومثبتة عملياً لعام 2026."</p>
+             <p class="quote">"باستخدام نموذج الـ TAM SAM SOM، نتوقع تحقيق عوائد سنوية ضخمة تبلغ 755 مليون جنيه مصري، ما يعادل تقريباً 15.7 مليون دولار أمريكي من وفورات وقود الطائرات والوجبات الملغاة وعمولات سوق النقل البري وعقود الرعاية!"</p>
+             <ul>
+                <li>استعرض الأرقام والرسوم التفاعلية التي تمثل نمو وتزايد الأرباح لعام 2026.</li>
+             </ul>`,
+            // Slide 9
+            `<h4>المتحدث: ياسين</h4>
+             <p class="quote">"لنرى كيف يترابط هذا النظام بالكامل، أمامكم مسار المسافر التفاعلي (Passenger Journey Flow):"</p>
+             <p class="quote">"لتحقيق هذه الرؤية على أرض الواقع في مطارات المنطقة، نطلب منكم اليوم استثماراً إستراتيجياً بقيمة 350,000 دولار مقابل 15% حصة ملكية لتمويل التطوير ونشر أولى محطات الـ VR مع شركائنا."</p>
+             <ul>
+                <li>اشرح الـ Diagram المتنقل، واعرض الـ Ask بجدية وقوة كخاتمة مثالية قبل بدء تشغيل الفيديو.</li>
+             </ul>`,
+            // Slide 10
+            `<h4>المتحدث: الفريق بأكمله</h4>
+             <p class="quote">"والآن، يسعدنا الإجابة عن كافة أسئلتكم واستفساراتكم حول مشروع FLYNT ونترككم مع الفيديو التوضيحي."</p>
+             <ul>
+                <li>هذه الشريحة مخصصة بالكامل لتشغيل الفيديو. مدمج بها زر شاشة كاملة لتوسيع الفيديو وضبط حجمه ليملأ شاشة العرض تماماً بضغطة واحدة.</li>
              </ul>`
         ];
 
@@ -1591,16 +2149,16 @@
             document.getElementById('notes-content-box').innerHTML = presenterScripts[currentSlide];
         }
 
-        // PRESENTATION TOGGLE DRAWER CONSOLE
+        // PRESENTATION TOGGLE DRAWER CABINET PANEL
         const notesPanel = document.getElementById('notes-panel');
         document.getElementById('toggle-console-btn').addEventListener('click', () => {
-            notesPanel.classList.add('open');
+            notesPanel.classList.toggle('open');
         });
         document.getElementById('close-notes-btn').addEventListener('click', () => {
             notesPanel.classList.remove('open');
         });
 
-        // ARROW KEYS CONTROL NAVIGATION
+        // KEYBOARD PRESENTATION NAVIGATION CONTROLS
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') {
                 e.preventDefault();
@@ -1614,8 +2172,10 @@
         document.getElementById('prev-slide').addEventListener('click', prevSlide);
         document.getElementById('next-slide').addEventListener('click', nextSlide);
 
-        // INITIAL SETUP
-        updateSlideStates();
+        // INITIAL PLATFORM COOLDOWN SETUP
+        window.onload = function () {
+            updateSlideStates();
+        }
     </script>
 </body>
 </html>
