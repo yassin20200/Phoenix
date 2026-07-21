@@ -1549,36 +1549,23 @@
             </div>
         </div>
 
-        <!-- SLIDE 10: VIDEO DEMO SCREEN PLAYER -->
-        <div class="slide" id="s10">
-            <div class="slide-layout" style="grid-template-columns: 1fr;">
-                <div class="slide-info" style="align-items: center; text-align: center; justify-content: center; height: 100%; padding: 40px 50px;">
-                    <div class="slide-header" style="position: absolute; top: 50px; right: 50px;">
-                        <span class="slide-num">Slide 10 / 10</span>
-                    </div>
-
-                    <div class="video-box-container">
-                        <!-- Custom Fullscreen Toggle -->
-                        <button class="fullscreen-trigger-btn" id="fs-toggle-btn">
-                            <i class="fa-solid fa-expand"></i> Go Fullscreen
-                        </button>
-
-                        <!-- Input URL Paste Form for Presentation Versatility -->
-                        <div class="video-paste-box">
-                            <input type="text" class="video-input" id="vid-url-input"https://drive.google.com/file/d/1zbzjrvtq4c0etI5m_O56yuHAQ2bxjrCg/view?usp=sharing">
-                            <button class="video-btn" id="vid-load-btn">Load Video</button>
-                        </div>
-
-                        <!-- Video Player Area -->
-                        <div class="video-player-placeholder" id="vid-placeholder">
-                            <i class="fa-solid fa-circle-play" style="font-size: 56px; color: var(--premium-mint); margin-bottom: 15px; cursor: pointer;"></i>
-                            <h3>FLYNT Interactive Video Showcase</h3>
-                            <p style="font-size: 12px; color: var(--text-secondary); max-width: 450px; margin-top: 5px;">Click play, load a custom stream link, or double-click to scale the viewport to fullscreen.</p>
-                        </div>
-                        <video class="video-player-frame" id="presentation-video" controls style="display: none;"></video>
-                    </div>
-                </div>
-            </div>
+<!-- Slide 10: Product Demo Video -->
+<div class="slide" id="slide10">
+    <div class="slide-header">
+        <h2>FLYNT in Action</h2>
+        <p>1-Minute Product Showcase</p>
+    </div>
+    <div class="video-container" style="position: relative; width: 100%; max-width: 900px; margin: 0 auto; aspect-ratio: 16/9; background: #000; border-radius: 16px; overflow: hidden; box-shadow: 0 12px 30px rgba(0,0,0,0.4);">
+        <iframe 
+            src="https://drive.google.com/file/d/1zbzjrvtq4c0etI5m_O56yuHAQ2bxjrCg/preview" 
+            width="100%" 
+            height="100%" 
+            style="border: 0;" 
+            allow="autoplay; fullscreen" 
+            allowfullscreen>
+        </iframe>
+    </div>
+</div>            </div>
         </div>
 
     </div>
